@@ -1,0 +1,48 @@
+<!-- templates/restaurants/manage_promotions.html -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/manage_promotions.css' %}">
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-2.jpeg' %}") center/cover no-repeat fixed;
+  color: #333;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+  <h1 style="color: aliceblue;" >Manage Promotions</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for promotion in promotions %}
+      <tr>
+        <td>{{ promotion.name }}</td>
+        <td>{{ promotion.description }}</td> 
+        <td>${{ promotion.price }}</td>
+        <td>
+          <a href="{% url 'restaurants:edit_promotion' promotion.id %}" class="btn btn-warning">Edit</a>
+          <a href="{% url 'restaurants:delete_promotion' promotion.id %}"class="btn btn-danger">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'restaurants:create_promotion' %}" class="btn btn-primary">Add New Promotion</a>
+{% endblock %}

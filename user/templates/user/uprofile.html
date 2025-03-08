@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user/css/uprofile.css' %}">
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+        color: #333;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        font-family: 'Pacifico', cursive;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-details {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .profile-details p {
+        text-align: left;
+        font-family: 'Pacifico', cursive;
+        font-size: 18px;
+        margin: 8px 0;
+    }
+
+    .profile-actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .profile-actions .btn {
+        margin: 10px;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="container">
+    <h2>User Profile</h2>
+
+    <div class="profile-details">
+        <div class="container" style="text-align: left;">
+        <p><strong>Username:</strong> {{ profile.user.username }}</p>
+        <p><strong>Email:</strong> {{ profile.user.email }}</p>
+        <p><strong>Contact Number:</strong> {{ profile.contact_number }}</p>
+        <p><strong>Address:</strong> {{ profile.address }}</p>
+        </div>
+        {% if profile_picture %}
+        <div>
+            <h5><strong style="font-family: 'Pacifico', cursive;">Profile Picture:</strong></h5>
+            <img src="data:image/jpeg;base64,{{ profile_picture }}" alt="Profile Picture" width="200" height="200">
+        </div>
+        {% else %}
+        <img src="{% static 'user/images/default.jpeg' %}" alt="default_image" width="200" height="200">
+        <p>No profile picture uploaded yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="profile-actions">
+        <a href="{% url 'user:update_user_profile' %}" class="btn btn-primary">Update Profile</a>
+        <a href="{% url 'user:delete_user_profile' %}" class="btn btn-danger">Delete Profile</a>
+    </div>
+</div>
+{% endblock %}

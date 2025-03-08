@@ -1,0 +1,86 @@
+/* Base styling for the page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    padding: 20px;
+}
+
+.promotion-details {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.promotion-details h2 {
+    color: #28a745;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.promotion-details p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.promotion-details strong {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Action buttons styling */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-edit:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .promotion-details {
+        padding: 20px;
+    }
+
+    .promotion-details h2 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}

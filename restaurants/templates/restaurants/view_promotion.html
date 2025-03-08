@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/view_promotion.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="promotion-details">
+    <h2>{{ promotion.name }}</h2>
+    <p><strong>Description:</strong> {{ promotion.description }}</p>
+    <p><strong>Price:</strong> ${{ promotion.price }}</p>
+    <p><strong>Status:</strong> {{ promotion.active|yesno:"Active,Inactive" }}</p>
+    
+    <div class="action-buttons">
+      <a href="{% url 'restaurants:edit_promotion' promotion.pk %}" class="btn btn-edit">Edit</a>
+      <a href="{% url 'restaurants:delete_promotion' promotion.pk %}" class="btn btn-delete">Delete</a>
+    </div>
+  </div>
+{% endblock %}

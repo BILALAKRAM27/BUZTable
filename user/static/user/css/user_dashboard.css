@@ -1,0 +1,73 @@
+/* Dashboard Container */
+.dashboard-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+/* Section Styling */
+.dashboard-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0.9;
+    
+}
+
+/* Table Styling */
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-table:hover {
+    transform: scale(1.01);
+}
+
+.dashboard-table th, .dashboard-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #f8f8f8;
+}
+
+.dashboard-table th {
+    background-color: #007BFF;
+    color: white;
+}
+
+.dashboard-table tr:hover {
+    background-color: #e2f5f9;
+    transform: scale(1.01);
+    border: 1px solid #0d0d0d;
+}
+
+.dashboard-table td {
+    font-size: 14px;
+    color: #333;
+}
+
+
+.dashboard-table thead {
+    font-weight: bold;
+}
+
+/* Heading Styling */
+h2, h3 {
+    font-size: 24px;
+    color: #171717;
+    margin-bottom: 20px;
+}
+
+/* Empty state message */
+p {
+    font-size: 16px;
+    color: #1b1b1b;
+}

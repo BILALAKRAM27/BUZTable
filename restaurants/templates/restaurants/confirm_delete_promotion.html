@@ -1,0 +1,86 @@
+<!-- confirm_delete_promotion.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Inline CSS for Styling -->
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f6f9;
+        color: #333;
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 100px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #004085;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        color: #fff;
+        background-color: #4a90e2;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        background-color: #357ab7;
+    }
+
+    .btn-danger {
+        background-color: #d9534f;
+    }
+
+    .btn-danger:hover {
+        background-color: #c9302c;
+    }
+
+    a {
+        font-size: 16px;
+        color: #004085;
+        text-decoration: none;
+        margin-top: 10px;
+        display: block;
+        text-align: center;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<!-- Delete Confirmation Page -->
+<div class="container">
+    <h2>Are you sure you want to delete the promotion "{{ promotion.name }}"?</h2>
+
+    <!-- Delete Form -->
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+
+    <!-- Cancel Link -->
+    <a href="{% url 'restaurants:manage_promotions' %}">Cancel</a>
+</div>
+
+{% endblock %}

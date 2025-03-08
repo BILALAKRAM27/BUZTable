@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load custom_filters %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/restaurant_dashboard.css' %}">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+        color: #333;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+{% endblock %}
+
+<!-- Display Orders -->
+<br><br><br>
+<h1 class="dashboard-title text-warning" style="font-family: 'Pacifico', cursive;">Restaurant Dashboard !</h1>
+
+<section class="dashboard-section">
+    <h2 style="font-family: 'Pacifico', cursive;">Orders</h2>
+    <section id="orders-section">
+        {% if orders %}
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Menu Item</th>
+                    <th>Special Deal</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Track Order</th>
+                    <th>Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.user.username }}</td>
+                    <td>
+                        {% for item_quantity in order.menuitemquantity_set.all %}
+                            {{ item_quantity.menu_item.name }} (x{{ item_quantity.quantity }})
+                            {% if not forloop.last %}, {% endif %}
+                        {% empty %} N/A {% endfor %}
+                    </td>
+                    <td>
+                        {% for deal_quantity in order.specialdealquantity_set.all %}
+                            {{ deal_quantity.special_deal.name }} (x{{ deal_quantity.quantity }})
+                            {% if not forloop.last %}, {% endif %}
+                        {% empty %} N/A {% endfor %}
+                    </td>
+                    <td>
+                        {% for item_quantity in order.menuitemquantity_set.all %}
+                            {{ item_quantity.quantity }} {% if not forloop.last %}, {% endif %}
+                        {% empty %} N/A {% endfor %}
+                    </td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_status_display }}</td>
+                    <td>
+                        {% if order.delivery %}
+                            <a href="{% url 'user:track_delivery' tracking_number=order.delivery.tracking_number %}" class="text-warning">{{ order.delivery.tracking_number }}</a>
+                        {% else %}
+                            <span>No Delivery</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ order.delivery_method }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Pagination for Orders -->
+    <div class="pagination" style="font-family: 'Pacifico', cursive;">
+        <span class="step-links">
+            {% if orders.has_previous %}
+                <a href="?orders_page={{ orders.previous_page_number }}&page=true" class="pagination-link" data-section="orders" data-page="{{ orders.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ orders.number }} of {{ orders.paginator.num_pages }}.
+            </span>
+            {% if orders.has_next %}
+                <a href="?orders_page={{ orders.next_page_number }}&page=true" class="pagination-link" data-section="orders" data-page="{{ orders.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+
+    {% else %}
+        <p class="no-data">No orders found.</p>
+    {% endif %}
+</section>
+
+<!-- Display Reviews -->
+<section class="dashboard-section">
+    <h2 style="font-family: 'Pacifico', cursive;">Reviews</h2>
+    {% if reviews %}
+    <table class="styled-table" id="reviews-table">
+        <thead>
+            <tr>
+                <th>Review ID</th>
+                <th>User</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+            <tr>
+                <td>{{ review.id }}</td>
+                <td>{{ review.user.username }}</td>
+                <td>
+                    <span class="text-warning">
+                        {% for i in review.rating|range %}
+                            ★
+                        {% endfor %}
+                    </span>
+                </td>
+                <td>{{ review.comment }}</td>
+                <td>{{ review.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination for Reviews -->
+    <div class="pagination" style="font-family: 'Pacifico', cursive;">
+        <span class="step-links">
+            {% if reviews.has_previous %}
+                <a href="?reviews_page={{ reviews.previous_page_number }}&page=true" class="pagination-link" data-section="reviews" data-page="{{ reviews.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}.
+            </span>
+            {% if reviews.has_next %}
+                <a href="?reviews_page={{ reviews.next_page_number }}&page=true" class="pagination-link" data-section="reviews" data-page="{{ reviews.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+
+    {% else %}
+        <p class="no-data">No reviews found.</p>
+    {% endif %}
+</section>
+
+<!-- Display Reservations -->
+<section class="dashboard-section">
+    <h2 style="font-family: 'Pacifico', cursive;">Reservations</h2>
+    {% if reservations %}
+    <table class="styled-table" id="reservations-table">
+        <thead>
+            <tr>
+                <th>Reservation ID</th>
+                <th>User</th>
+                <th>Reservation Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.user.username }}</td>
+                <td>{{ reservation.reservation_date }}</td>
+                <td>{{ reservation.get_status_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination for Reservations -->
+    <div class="pagination" style="font-family: 'Pacifico', cursive;">
+        <span class="step-links">
+            {% if reservations.has_previous %}
+                <a href="?reservations_page={{ reservations.previous_page_number }}&page=true" class="pagination-link" data-section="reservations" data-page="{{ reservations.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ reservations.number }} of {{ reservations.paginator.num_pages }}.
+            </span>
+            {% if reservations.has_next %}
+                <a href="?reservations_page={{ reservations.next_page_number }}&page=true" class="pagination-link" data-section="reservations" data-page="{{ reservations.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+
+    {% else %}
+        <p class="no-data">No reservations found.</p>
+    {% endif %}
+</section>
+
+{% block extra_js %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('.pagination-orders').on('click', 'a', function (e) {
+    e.preventDefault(); // Prevent default link behavior
+    var url = $(this).attr('href');
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (response) {
+            // Update the content for the orders section with new HTML
+            $("section#orders-section").html($(response.html).find("section#orders-section").html());
+            
+            // Optionally, update the current page number
+            updatePageNumber(response.orders_page, 'orders');
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: ", error);
+        }
+    });
+});
+
+// Similar setup for reviews and reservations pagination
+$('.pagination-reviews').on('click', 'a', function (e) {
+    e.preventDefault();
+    var url = $(this).attr('href');
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (response) {
+            $("section#reviews-section").html($(response.html).find("section#reviews-section").html());
+            updatePageNumber(response.reviews_page, 'reviews');
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: ", error);
+        }
+    });
+});
+
+$('.pagination-reservations').on('click', 'a', function (e) {
+    e.preventDefault();
+    var url = $(this).attr('href');
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (response) {
+            $("section#reservations-section").html($(response.html).find("section#reservations-section").html());
+            updatePageNumber(response.reservations_page, 'reservations');
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Error: ", error);
+        }
+    });
+});
+
+</script>
+
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/auth.css' %}">
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-5.png' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  .alert-container {
+    margin-top: 20px;
+  }
+
+  .alert {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+
+  .alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br>
+<div class="login-container">
+  <div class="login-card">
+    <h2 style="font-family: 'Pacifico', cursive">Login</h2>
+
+    {% if messages %}
+      <div class="alert-container">
+        {% for message in messages %}
+          {% if 'login-error' in message.tags %}
+            <div class="alert alert-danger" id="login-error-message">
+              <strong>Error!</strong> {{ message }}
+            </div>
+          {% elif 'logout-success' in message.tags %}
+          <div class="alert alert-success" id="logout-success-message">
+            <strong>Success!</strong> {{ message }}
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username" style="font-family: 'Pacifico', cursive">Username:</label>
+        <input type="text" name="username" id="username" class="form-controls" required>
+      </div>
+      <div class="form-group">
+        <label for="password" style="font-family: 'Pacifico', cursive">Password:</label>
+        <input type="password" name="password" id="password" class="form-controls" required>
+      </div>
+      <button type="submit" class="btn btn-primary loginbtn">Login</button>
+    </form>
+    
+    <p style="font-family: 'Pacifico', cursive">Don't have an account? <a href="{% url 'restaurants:register' %}">Sign up here</a></p>
+  </div>
+</div>
+
+{% endblock %}

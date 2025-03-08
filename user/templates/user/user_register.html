@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user/css/auth.css' %}">
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+  color: #333;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br><br>
+<div class="register-container">
+  <div class="register-card">
+    <h2 style="font-family: 'Pacifico', cursive;">Register</h2>
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="signupbtn">Sign Up</button>
+    </form>
+    <p style="font-family: 'Pacifico', cursive;">Already have an account? <a href="{% url 'user:user_login' %}">Login here</a></p>
+  </div>
+</div>
+{% endblock %}

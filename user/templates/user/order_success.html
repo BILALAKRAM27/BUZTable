@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Order Success{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  .card {
+    background-image: url("{% static 'restaurants/images/paid.png' %}");
+    background-position: 900px -10px;
+    background-size: 250px;
+    background-repeat: no-repeat;
+  }
+
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .order-table th, .order-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  .order-table th {
+    background-color: #f2f2f2;
+  }
+</style>
+
+<br><br>
+<div class="container py-5">
+    <div class="text-center">
+        <div style="color: rgb(26, 200, 3);"></span><h2 class="container">Order-Successful!</h2></div>
+        <p style="color: aliceblue;" class="lead">Thank you for your order, {{ request.user.get_full_name }}. Here are the details:</p>
+    </div>
+
+    <!-- Order Details Card -->
+    <div class="card my-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Order Details</h4>
+        </div>
+        <div class="card-body">
+            <h5><strong>Order Summary</strong></h5>
+
+            <!-- Loop through order_items to display each item -->
+            {% for order in order_items %}
+                <div class="border-bottom pb-3 mb-3">
+                    {% if order.is_special_deal %}
+                        <!-- Display Special Deal -->
+                        <h5><strong>Special Deal:</strong> {{ order.item.name }}</h5>
+                        <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+                        <p><strong>Price:</strong> ${{ order.item.price|floatformat:2 }}</p>
+                    {% else %}
+                        <!-- Display Menu Item -->
+                        <h5><strong>Menu Item:</strong> {{ order.item.name }}</h5>
+                        <p><strong>Quantity:</strong> {{ order.quantity }}</p>
+                        <p><strong>Price:</strong> ${{ order.item.price|floatformat:2 }}</p>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No items in this order.</p>
+            {% endfor %}
+
+            <hr>
+
+            <!-- Display Total Price -->
+            <h5><strong>Total Amount Paid:</strong> ${{ total_price|floatformat:2 }}</h5>
+
+            <!-- Shipping Details Table -->
+            <h5>Shipping Details</h5>
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Order Id</th>
+                        <th>Recipient</th>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ shipping_details.id }}</td>
+                        <td>{{ shipping_details.full_name }}</td>
+                        <td>{{ shipping_details.address }}</td>
+                        <td>{{ shipping_details.phone_number }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Order Method Details Table -->
+            <h5>Order Method</h5>
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Order Type</th>
+                        <th>Delivery Partner</th>
+                        <th>Tracking Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ shipping_details.delivery_method }}</td>
+                        <td>
+                            {% if shipping_details.delivery_method == 'delivery' %}
+                                {{ shipping_details.delivery_partner.name }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if shipping_details.delivery_method == 'delivery' %}
+                                {{ shipping_details.delivery.tracking_number }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h5>Additional Information</h5>
+            <p><strong>Order Date:</strong> {{ shipping_details.order_date|date:"F j, Y, g:i a" }}</p>
+            <p class="text-muted">Your order is currently being prepared and will be shipped shortly.</p>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center">
+        <a href="{% url 'user:user_dashboard' %}" class="btn btn-primary">View Dashboard</a>
+        <a href="{% url 'user:view_cart' %}" class="btn btn-outline-secondary">View Cart</a>
+        {% if shipping_details.delivery_method == 'delivery' %}
+    {% if shipping_details.delivery.tracking_number %}
+        <!-- Track Delivery Button -->
+        <a href="{% url 'user:track_delivery' tracking_number=shipping_details.delivery.tracking_number %}" class="btn btn-warning">Track Delivery</a>
+    {% else %}
+        <p>Tracking number is not available yet.</p>
+    {% endif %}
+{% else %}
+    <p>method is not set to 'delivery'.</p>
+{% endif %}
+    </div>
+</div>
+
+{% endblock %}

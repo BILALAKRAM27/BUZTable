@@ -1,0 +1,6 @@
+<h1>Order Confirmation</h1>
+<p>Thank you for your order, {{ order.full_name }}!</p>
+<p>Your order ID is {{ order.id }}.</p>
+<p>Delivery Status: {{ delivery.get_status_display }}</p>
+<p>Tracking Number: {{ delivery.tracking_number }}</p>
+<p><a href="{% url 'user:track_delivery' delivery.tracking_number %}">Track Delivery</a></p>

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user/css/delete_profile.css' %}">
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br>
+<!-- Delete Profile Confirmation Alert -->
+<div class="alert alert-danger">
+    <h2>Wait! Are You Sure You Want to Delete Your Profile?</h2>
+    <p>Your Diner profile is an integral part of the BUZTable community. Deleting it means losing all your valuable reviews, reservation history, and customer connections. Here’s why you might want to reconsider:</p>
+    <ul>
+        <li><strong>Preserve Your Dining Experience:</strong> Your profile helps restaurants recognize and value your preferences and dining history.</li>
+        <li><strong>Maintain Reservation History:</strong> Your past reservations and reviews will be lost, making it harder to track your dining journey.</li>
+        <li><strong>Stay Informed on New Promotions:</strong> Keep receiving updates on new restaurant promotions, discounts, and special offers.</li>
+        <li><strong>Keep Your Reviews Visible:</strong> Your reviews and feedback influence restaurant quality and help other diners make better choices.</li>
+    </ul>
+    <p>If there’s anything we can do to improve your experience or address any issues, please <a href="mailto:{{ email_address }}">contact our support team</a>. We’re here to assist you!</p>
+    <p>If you still wish to proceed with deleting your profile, please confirm below:</p>
+    <form method="POST">
+        {% csrf_token %}
+        <!-- Delete Button -->
+        <button type="submit" class="btn btn-danger">Yes, delete my profile</button>
+        
+        <!-- Cancel Button -->
+        <a href="{% url 'user:uprofile' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout{% endblock %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br>
+<div class="container mt-5">
+  <h2 style="font-family: 'Pacifico', cursive" class="text-warning">Checkout</h2>
+
+  {% if cart_items %}
+    <!-- Display Cart Items -->
+    <table class="table table-bordered mt-4">
+      <thead style="background-color: rgb(99, 182, 255);">
+        <tr>
+          <th>Item</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody style="background-color: aliceblue;">
+        {% for item in cart_items %}
+          <tr>
+            {% if item.type == 'menu_item' %}
+              <td>{{ item.item.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>${{ item.item.price|floatformat:2 }}</td>
+            {% elif item.type == 'special_deal' %}
+              <td>{{ item.item.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>${{ item.item.price|floatformat:2 }}</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Display Total Price -->
+    <div class="text-right mb-4">
+      <h4 style="font-family: 'Pacifico', cursive" class="text-warning">Total: ${{ total_price|floatformat:2 }}</h4>
+    </div>
+
+    <!-- Shipping Form -->
+    <form method="POST" class="mt-3">
+      {% csrf_token %}
+      
+      <!-- Recipient Name -->
+      <div class="form-group">
+        <label for="full_name" style="font-family: 'Pacifico', cursive" class="text-warning">Recipient Name:</label>
+        <input type="text" class="form-control" id="full_name" name="full_name" 
+               value="{{ user.user_profile.full_name }}" placeholder="Enter your full name" required>
+      </div>
+
+      <!-- Delivery Address -->
+      <div class="form-group">
+        <label for="address" style="font-family: 'Pacifico', cursive" class="text-warning">Delivery Address:</label>
+        <textarea class="form-control" id="address" name="address" rows="3" 
+                  placeholder="Enter your address" required>{{ user.user_profile.address }}</textarea>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="phone_number" style="font-family: 'Pacifico', cursive" class="text-warning">Phone Number:</label>
+        <input type="tel" class="form-control" id="phone_number" name="phone_number" 
+               pattern="\+?[0-9]{1,4}?[-.●]?[0-9]{1,3}[-.●]?[0-9]{1,4}[-.●]?[0-9]{1,4}[-.●]?[0-9]{1,9}" 
+               placeholder="Enter your phone number" value="{{ user.user_profile.phone_number }}" required>
+      </div>
+
+      <!-- Takeout or Delivery Selection -->
+      <div class="form-group">
+        <label for="delivery_method" style="font-family: 'Pacifico', cursive" class="text-warning">Order Type:</label>
+        <select class="form-control" id="delivery_method" name="delivery_method" required>
+          <option value="takeout">Takeout</option>
+          <option value="delivery">Delivery</option>
+        </select>
+      </div>
+
+      <!-- Delivery Partner Selection (Initially Hidden) -->
+      <div class="form-group" id="delivery_partner_section" style="display:none;">
+        <label for="delivery_partner" style="font-family: 'Pacifico', cursive" class="text-warning">Select Delivery Partner:</label>
+        <select class="form-control" id="delivery_partner" name="delivery_partner">
+          {% for partner in delivery_partners %}
+            <option value="{{ partner.id }}">{{ partner.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Place Order</button>
+    </form>
+
+  {% else %}
+    <!-- Message for Empty Cart -->
+    <div class="alert alert-warning mt-4">
+      Your cart is empty. <a href="{% url 'user:view_cart' %}" class="alert-link">Go back to the cart</a>.
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Wait for the DOM to be fully loaded before running the script
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the elements
+    var deliveryMethodSelect = document.getElementById('delivery_method');
+    var deliveryPartnerSection = document.getElementById('delivery_partner_section');
+
+    // Function to show/hide delivery partner selection based on order type
+    function toggleDeliveryPartner() {
+      var deliveryMethod = deliveryMethodSelect.value;
+      if (deliveryMethod === 'delivery') {
+        deliveryPartnerSection.style.display = 'block'; // Show delivery partner selection
+      } else {
+        deliveryPartnerSection.style.display = 'none'; // Hide delivery partner selection
+      }
+    }
+
+    // Call the function to initialize the visibility based on the current value
+    toggleDeliveryPartner();
+
+    // Add event listener for changes to the order type dropdown
+    deliveryMethodSelect.addEventListener('change', toggleDeliveryPartner);
+  });
+</script>
+{% endblock %}

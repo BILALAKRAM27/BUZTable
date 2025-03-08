@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user/css/auth.css' %}">
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-5.png' %}") center/cover no-repeat fixed;
+  color: #333;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div id="logincontaner" class="login-container">
+  <div class="login-card">
+    <h2 style="font-family: 'Pacifico', cursive;">Login</h2>
+    {% if messages %}
+      <div class="alert-container">
+        {% for message in messages %}
+          {% if 'login-error' in message.tags %}
+            <div class="alert alert-danger" id="login-error-message">
+              <strong>Error!</strong> {{ message }}
+            </div>
+          {% elif 'logout-success' in message.tags %}
+          <div class="alert alert-success" id="logout-success-message">
+            <strong>Success!</strong> {{ message }}
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label style="font-family: 'Pacifico', cursive;" for="username">Username:</label>
+        <input type="text" name="username" id="username" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label  style="font-family: 'Pacifico', cursive;" for="password">Password:</label>
+        <input type="password" name="password" id="password" class="form-control" required>
+      </div>
+      <button type="submit" class="loginbtn">Login</button>
+    </form>
+    <p style="font-family: 'Pacifico', cursive;">Don't have an account? <a href="{% url 'user:user_register' %}">Sign up here</a></p>
+    <!-- In your login.html -->
+<a style="font-family: 'Pacifico', cursive;" href="{% url 'user:password_reset' %}">Forgot your password?</a>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!-- restaurants/templates/restaurants/update_profile.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user/css/update_profile.css' %}">
+
+<style>
+    body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+</style>
+{% endblock %}
+{% block content %}
+<br><br>
+<div class="container">
+    <h2 style="font-family: 'Pacifico', cursive;" >Update Profile</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ u_form.as_p }}
+        {{ p_form.as_p }}
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+<!-- templates/restaurants/schedule_list.html -->
+
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %} <!-- Make sure to load the custom filter library here -->
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/schedule_list.css' %}">
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-5.png' %}") center/cover no-repeat fixed;
+  color: #333;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+  <h1 style="color: aliceblue;" >Restaurant Schedules</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Day of Week</th>
+        <th>Opening Time</th>
+        <th>Closing Time</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for day in days_of_week %}
+        {% with schedule_for_day=schedules|get_day_schedule:day %}
+          {% if schedule_for_day %}
+            <tr>
+              <td>{{ schedule_for_day.day_of_week }}</td>
+              <td>{{ schedule_for_day.opening_time }}</td>
+              <td>{{ schedule_for_day.closing_time }}</td>
+              <td>
+                <a href="{% url 'restaurants:update_schedule' schedule_for_day.id %}" class="schedule_link">Edit</a>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td>{{ day }}</td>
+              <td colspan="2">No schedule/Closed</td>
+              <td>
+                <a href="{% url 'restaurants:add_schedule' %}?day={{ day }}"class="schedule_link">Add Schedule</a>
+              </td>
+            </tr>
+          {% endif %}
+        {% endwith %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{% url 'restaurants:add_schedule' %}"class="schedule_link">Add New Schedule</a>
+{% endblock %}

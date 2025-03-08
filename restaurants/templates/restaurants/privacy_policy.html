@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-5.png' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  p {
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  h2 {
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+    h2 {
+      font-size: 1.5em;
+    }
+    p {
+      font-size: 1em;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<h1 style="font-family: 'Pacifico', cursive" class="text-warning">Privacy Policy</h1>
+<div class="container" >
+    <p>Last updated: 28th December 2024</p>
+    <p>Welcome to BUZTable. We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy policy, or our practices with regards to your personal information, please contact us at Contact@BUZTable.com.</p>
+    <h2 style="font-family: 'Pacifico', cursive">Information We Collect</h2>
+    <p>We collect personal information that you provide to us when you register on the BUZTable platform, make a reservation, or contact us for support. This information may include your name, email address, phone number, and payment details.</p>
+    <h2 style="font-family: 'Pacifico', cursive">How We Use Your Information</h2>
+    <p>We use the information we collect to provide, operate, and maintain our services, including processing your reservations and payments, and to communicate with you about your account and our services.</p>
+    <h2 style="font-family: 'Pacifico', cursive">Sharing Your Information</h2>
+    <p>We do not share your personal information with third parties except as necessary to provide our services, comply with the law, or protect our rights.</p>
+    <h2 style="font-family: 'Pacifico', cursive">Your Privacy Rights</h2>
+    <p >You have the right to access, update, or delete your personal information at any time. Please contact us at Contact@BUZTable.com to exercise these rights.</p>
+</div>
+{% endblock %}

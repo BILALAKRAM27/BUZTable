@@ -1,0 +1,183 @@
+<!-- favorites.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/restaurant_detail.css' %}">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+        color: #333;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .favorite-section {
+        margin-bottom: 30px;
+    }
+
+    .table-container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        color: #333;
+    }
+
+    th {
+        background-color: rgb(24, 142, 181);
+        
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border: none;
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br><br>
+<h1 class="text-warning" style="font-family: 'Pacifico', cursive;text-align: center;">Your Favorite Restaurants</h1>
+    <div class="table-container">
+       
+
+        <h2 style="font-family: 'Pacifico', cursive;">Restaurants</h2>
+        {% if favorite_restaurants %}
+            <table>
+                <thead style="font-family: 'Pacifico', cursive;">
+                    <tr>
+                        <th>Restaurant Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for restaurant in favorite_restaurants %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'restaurants:restaurant_detail' restaurant.id %}" style="color: #333; text-decoration: none;">
+                                    {{ restaurant.restaurant_name }}
+                                </a>
+                            </td>
+                            <td>{{ restaurant.description }}</td>
+                            <td>
+                                <form action="{% url 'user:remove_from_favorites' favorite_id=restaurant.id favorite_type='restaurant' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="font-family: 'Pacifico', cursive;">You have no favorite restaurants Yet.</p>
+        {% endif %}
+
+        <h2 style="font-family: 'Pacifico', cursive;">Menu Items</h2>
+        {% if favorite_menu_items %}
+            <table>
+                <thead style="font-family: 'Pacifico', cursive;">
+                    <tr>
+                        <th>Menu Item</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for menu_item in favorite_menu_items %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'restaurants:restaurant_detail' menu_item.profile.id %}" style="color: #333; text-decoration: none;">
+                                    {{ menu_item.name }}
+                                </a>
+                            </td>
+                            <td>{{ menu_item.price }}</td>
+                            <td>
+                                <form action="{% url 'user:remove_from_favorites' favorite_id=menu_item.id favorite_type='menu_item' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="font-family: 'Pacifico', cursive;">You have no favorite menu items Yet.</p>
+        {% endif %}
+
+        <h2 style="font-family: 'Pacifico', cursive;">Special Deals</h2>
+        {% if favorite_special_deals %}
+            <table>
+                <thead style="font-family: 'Pacifico', cursive;">
+                    <tr>
+                        <th>Special Deal</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for deal in favorite_special_deals %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'restaurants:restaurant_detail' deal.profile.id %}" style="color: #333; text-decoration: none;">
+                                    {{ deal.name }}
+                                </a>
+                            </td>
+                            <td>{{ deal.price }}</td>
+                            <td>
+                                <form action="{% url 'user:remove_from_favorites' favorite_id=deal.id favorite_type='special_deal' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="font-family: 'Pacifico', cursive;">You have no favorite special deals Yet.</p>
+        {% endif %}
+    </div>
+{% endblock %}

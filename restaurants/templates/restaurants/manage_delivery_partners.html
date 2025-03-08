@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout{% endblock %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), 
+                url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    font-size: 2rem;
+    color: #f8f9fa;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    background-color: rgba(0, 0, 0, 0.6);
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    color: #f1f1f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+  }
+
+  li a {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 15px;
+  }
+
+  li a:hover {
+    text-decoration: underline;
+  }
+
+  a.add-new-btn {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+
+  a.add-new-btn:hover {
+    background-color: #218838;
+  }
+
+  .no-partners {
+    color: #ccc;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .action-btns a {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #ffc107;
+    color: #000;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .action-btns a:hover {
+    background-color: #e0a800;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br>
+<div class="container">
+  <h1 style="font-family: 'Pacifico', cursive;">Delivery Partners for {{ restaurant.restaurant_name }}</h1>
+
+  <a href="{% url 'restaurants:add_delivery_partner' restaurant.id %}" class="add-new-btn">Add a new Delivery Partner</a>
+
+  <h2 style="font-family: 'Pacifico', cursive;color: #f0ff4dc7;">Current Delivery Partners</h2>
+  <ul>
+    {% for partner in delivery_partners %}
+      <li>
+        <div>{{ partner.name }} - {{ partner.contact }}</div>
+        <div class="action-btns">
+          <a href="{% url 'restaurants:update_delivery_partner' restaurant.id partner.id %}">Edit</a>
+          <a href="{% url 'restaurants:remove_delivery_partner' restaurant.id partner.id %}">Remove</a>
+        </div>
+      </li>
+    {% empty %}
+      <li class="no-partners">No delivery partners added yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

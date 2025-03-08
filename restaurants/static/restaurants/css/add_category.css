@@ -1,0 +1,64 @@
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 36px;
+    color: var(--dark);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Form */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--light);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+form p {
+    font-size: 16px;
+    color: var(--dark);
+}
+
+form button {
+    margin-top: 20px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: var(--primary);
+}
+
+/* Back Button */
+a.btn.btn-secondary {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #6c757d;
+    color: #fff;
+    border-radius: 4px;
+    margin-top: 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+a.btn.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Add Category Page Specific Styles */
+.btn-primary {
+    background-color: var(--primary);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: darkorange;
+}

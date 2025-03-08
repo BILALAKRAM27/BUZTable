@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), 
+                url("{% static 'restaurants/images/back-5.png' %}") center/cover no-repeat fixed;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+  .auth-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 40px 60px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .auth-title {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .auth-description {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .auth-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: aliceblue;
+  }
+
+  .auth-form input, .auth-form select, .auth-form textarea {
+    font-size: 1rem;
+    padding: 12px;
+    margin-bottom: 15px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s;
+  }
+
+  .auth-form input:focus, .auth-form select:focus, .auth-form textarea:focus {
+    outline: none;
+    border-color: #e8e415;
+  }
+
+  .auth-form button {
+    background-color: #3da656;
+    color: rgb(0, 0, 0);
+    font-size: 1.1rem;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+    width: 35%;  /* Button width */
+    margin: 20px auto;  /* Centering the button */
+}
+
+  .auth-form button:hover {
+    background-color: #218838;
+  }
+
+  .btn-warning {
+    font-size: 1.1rem;
+    text-decoration: none;
+    width: 35%;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+  <br><br><br>
+  <div class="auth-container">
+    <h1 class="auth-title text-warning" style="font-family: 'Pacifico', cursive">Add Delivery Partner</h1>
+    <p class="auth-description text-warning" style="font-family: 'Pacifico', cursive">Fill in the details below to add a new delivery partner for your restaurant.</p>
+
+    <form method="POST" class="auth-form" >
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Delivery Partner</button>
+    </form>
+
+    <a href="{% url 'restaurants:manage_delivery_partners' restaurant_id=restaurant.id %}" class="btn btn-warning">Back to Delivery Partners</a>
+  </div>
+
+{% endblock %}

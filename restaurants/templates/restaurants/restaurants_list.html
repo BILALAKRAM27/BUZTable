@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/restaurant_list.css' %}">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-6.png' %}") center/cover no-repeat fixed;
+        color: #333;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+    .restaurant-card {
+        position: relative; /* Ensure that the card's position is relative to its children */
+    }
+
+    .rating-container {
+        position: absolute; /* Position it absolutely within the card */
+        bottom: 10px; /* Adjust to position it at the bottom */
+        right: 10px; /* Align it to the right */
+        text-align: right; /* Align text to the right */
+        background: #f5faff; /* Optional: Add a background to make it more readable */
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .rating-container:hover {
+        background-color: #e8f4ff;
+    }
+   
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<h1 style="color: aliceblue;">Restaurants</h1>
+<a href="{% url 'restaurants:category_list' %}" style="color: aliceblue; padding: 10px;"><strong>All Categories</strong></a>
+
+<div class="restaurant-list-container">
+    <form method="get" class="form-inline mb-3" id="search-form">
+        <input 
+            style="font-family: 'Pacifico', cursive" 
+            type="text" 
+            name="search" 
+            value="{{ search_query }}" 
+            class="form-control mr-2" 
+            id="search-input" 
+            placeholder="Search restaurant" 
+        />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    
+    <div class="restaurant-list" id="restaurant-list">
+        {% for profile in profiles %}
+        <div class="restaurant-card mb-4">
+            
+            <a href="{% url 'restaurants:restaurant_detail' profile.id %}" class="restaurant-card-link">
+                <div class="restaurant-card-body d-flex">
+                   
+                    <div class="profile-img-container">
+                        {% if profile.image_data %}
+                        <img src="data:image/jpeg;base64,{{ profile.image_data }}" alt="Profile Picture" class="restaurant-profile-img">
+                        {% else %}
+                        <img src="{% static 'restaurants/images/default_image.png' %}" alt="default_image" class="restaurant-profile-img">
+                        {% endif %}
+                    </div>
+
+                    <!-- Right side: Restaurant Info -->
+                    <div class="restaurant-info-container ml-3">
+                        <h5 class="restaurant-card-title">
+                            <strong>{{ profile.restaurant_name }}</strong>
+                        </h5>
+                        
+                        <p class="restaurant-card-text"><strong style="font-family: 'Pacifico', cursive">Contact Number:</strong> {{ profile.contact_number }}</p>
+                        
+                        <!-- Address -->
+                        <p class="restaurant-card-text">
+                            <strong style="font-family: 'Pacifico', cursive">Address:</strong> 
+                            <span id="address-{{ profile.id }}">
+                                {% if profile.address|length > 100 %}
+                                    {{ profile.address|slice:":100" }}
+                                    <span id="dots-address-{{ profile.id }}" class="dots" style="display: inline;">...</span>
+                                    <span id="more-address-{{ profile.id }}" class="more-text" style="display: none;">
+                                        {{ profile.address }}
+                                    </span>
+                                    <a href="javascript:void(0);" id="see-more-address-{{ profile.id }}" class="see-more" onclick="toggleText('address', '{{ profile.id }}')">See More</a>
+                                {% else %}
+                                    {{ profile.address }}
+                                {% endif %}
+                            </span>
+                            </p>
+                        <!-- Description -->
+                        <p class="restaurant-card-text">
+                            <strong style="font-family: 'Pacifico', cursive">Description:</strong>
+                            <span id="description-{{ profile.id }}">
+                                {% if profile.description|length > 100 %}
+                                    {{ profile.description|slice:":100" }}
+                                    <span id="dots-description-{{ profile.id }}" class="dots" style="display: inline;">...</span>
+                                    <span id="more-description-{{ profile.id }}" class="more-text" style="display: none;">
+                                        {{ profile.description }}
+                                    </span>
+                                    <a href="javascript:void(0);" id="see-more-description-{{ profile.id }}" class="see-more" onclick="toggleText('description', '{{ profile.id }}')">See More</a>
+                                {% else %}
+                                    {{ profile.description }}
+                                {% endif %}
+                            </span>
+                            
+                        </p>
+
+
+                        {% if profile.site %}
+                        <a href="{{ profile.site }}" class="restaurant-button">🌐 Site</a>
+                        {% endif %}
+                        {% if profile.address_link %}
+                        <a href="{{ profile.address_link }}" class="restaurant-button">📍 Location</a>
+                        {% endif %}  
+                        <div class="rating-container" style="text-align: end;">
+                            <p style="color: #333;"><strong style="font-family: 'Pacifico', cursive">Rating:</strong> 
+                                {% if profile.average_rating %}
+                                    <span class="text-warning">
+                                        {{ profile.average_rating|floatformat:1 }} ( 
+                                        {% for star in profile.average_rating|range %}
+                                            ★
+                                        {% endfor %}
+                                        )
+                                    </span>
+                                {% else %}
+                                    No ratings yet
+                                {% endif %}
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+{% block extra_js %}
+<script>
+    // Function to toggle between "See More" and "See Less"
+    function toggleText(type, id) {
+        var dots = document.getElementById("dots-" + type + "-" + id);
+        var moreText = document.getElementById("more-" + type + "-" + id);
+        var btnText = document.getElementById("see-more-" + type + "-" + id);
+
+        // Check if dots are visible, if so, reveal the full text
+        if (dots.style.display === "inline") {
+            dots.style.display = "none";  // Hide the dots
+            moreText.style.display = "inline";  // Show the full text
+            btnText.innerHTML = "See Less";  // Change button text to "See Less"
+        } else {
+            // Otherwise, hide the full text and show the truncated version
+            dots.style.display = "inline";  // Show the dots
+            moreText.style.display = "none";  // Hide the full text
+            btnText.innerHTML = "See More";  // Change button text to "See More"
+        }
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("search-input");
+    const restaurantListContainer = document.getElementById("restaurant-list");
+
+    // Function to render restaurants dynamically
+    const renderRestaurants = (restaurants) => {
+        console.log("Rendering restaurants:", restaurants);  // Check the data
+        restaurantListContainer.innerHTML = ""; // Clear existing content
+
+        if (restaurants.length === 0) {
+            restaurantListContainer.innerHTML = "<p>No restaurants found.</p>";
+            return;
+        }
+
+        restaurants.forEach((restaurant) => {
+            const restaurantCard = document.createElement("div");
+            restaurantCard.classList.add("restaurant-card");  // Apply the restaurant card CSS class
+
+            // Link to the restaurant detail page with the correct URL pattern
+            const restaurantDetailLink = `/restaurant/${restaurant.id}/`;  // Updated to match your URL pattern
+
+            restaurantCard.innerHTML = `
+                <a href="${restaurantDetailLink}" class="text-decoration-none">
+                    <div class="restaurant-card-body">
+                        <!-- Left side: Profile Image -->
+                        <div class="profile-img-container">
+                            ${
+                                restaurant.image_data
+                                    ? `<img src="data:image/jpeg;base64,${restaurant.image_data}" 
+                                          alt="${restaurant.restaurant_name}" class="restaurant-profile-img">`
+                                    : `<img src="default-image.jpg" alt="Default Image" class="restaurant-profile-img">` 
+                            }
+                        </div>
+
+                        <!-- Right side: Restaurant Info -->
+                        <div class="restaurant-info-container">
+                            <h5 class="restaurant-card-title" style="font-family: 'Pacifico', cursive">${restaurant.restaurant_name}</h5>
+                            <p class="restaurant-card-text" >
+                                <strong style="font-family: 'Pacifico', cursive">Contact:</strong> ${restaurant.contact_number || "N/A"}<br>
+                                <strong style="font-family: 'Pacifico', cursive">Address:</strong> ${restaurant.address || "N/A"}<br>
+                                <strong style="font-family: 'Pacifico', cursive">Description:</strong> ${restaurant.description || "N/A"}
+                            </p>
+                            <a href="${restaurant.site}" class="restaurant-button" target="_blank">🌐 Site</a>
+                            <a href="${restaurant.address_link}" class="restaurant-button" target="_blank">📍 Location</a>
+                            
+                        </div>
+                    </div>
+                </a>
+            `;
+
+            restaurantListContainer.appendChild(restaurantCard);
+        });
+    };
+
+    // Function to fetch restaurants via AJAX
+    const fetchRestaurants = (searchQuery) => {
+        console.log("Fetching restaurants with query:", searchQuery);  // Log the search query
+
+        let url = "/restaurants/";
+
+        if (searchQuery.trim().length > 0) {
+            url += `?search=${encodeURIComponent(searchQuery)}`;
+        }
+
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    console.error("Network response was not ok:", response.statusText);
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Received data:", data); // Log the data
+                renderRestaurants(data.restaurants);
+            })
+            .catch((error) => {
+                console.error("Error fetching restaurants:", error);
+                restaurantListContainer.innerHTML = "<p>Error fetching restaurant data. Please try again later.</p>";
+            });
+    };
+
+    // Event listener for the search input
+    searchInput.addEventListener("input", (event) => {
+        const searchQuery = event.target.value.trim();
+        console.log("Search Query:", searchQuery); // Log the search query
+        fetchRestaurants(searchQuery);
+    });
+});
+
+
+
+</script>
+
+
+
+{% endblock %}
+
+{% endblock %}

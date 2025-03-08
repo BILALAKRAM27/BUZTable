@@ -1,0 +1,115 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/about-4.jpg' %}") center/cover no-repeat fixed;
+    
+        }
+        h2 {
+            text-align: center;
+        }
+        #payment-form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            background-color: aliceblue;
+            opacity: 0.9;
+        }
+        #card-element {
+            margin-bottom: 10px;
+        }
+        #card-errors {
+            color: red;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #FEA116;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FEA116;
+        }
+    </style>
+</head>
+<body>
+    <br><br><br><br>
+    <h2 style="font-family: 'Pacifico', cursive; color: #FEA116;" >Enter your payment information</h2>
+    
+    <!-- Display the total price -->
+    
+
+    <form action="{% url 'restaurants:payments' total_price=total_price %}" method="POST" id="payment-form">
+        <p style="text-align: center;" >Total: ${{ total_price }}</p>
+        {% csrf_token %}
+        
+        <input type="hidden" name="total_price" value="{{ total_price }}">
+        
+        <!-- Card Element will be inserted here -->
+        <div id="card-element"></div>
+
+        <!-- Display any error that occurs during payment -->
+        <div id="card-errors"></div>
+
+        <button type="submit">Pay Now</button>
+    </form>
+
+    <script>
+        var stripe = Stripe('{{ STRIPE_TEST_PUBLISHABLE_KEY }}');
+        var elements = stripe.elements();
+        
+        // Create an instance of the card Element.
+        var card = elements.create('card');
+        
+        // Add an instance of the card Element to the card-element div.
+        card.mount('#card-element');
+        
+        // Handle form submission
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Disable the submit button to prevent multiple submissions
+            var submitButton = form.querySelector('button');
+            submitButton.disabled = true;
+
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+
+                    // Re-enable the submit button
+                    submitButton.disabled = false;
+                } else {
+                    // Otherwise send the token to the server
+                    var token = result.token.id;
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'stripeToken');
+                    hiddenInput.setAttribute('value', token);
+                    form.appendChild(hiddenInput);
+                    
+                    form.submit();  // Submit the form with the token
+                }
+            });
+        });
+    </script>
+</body>
+</html>

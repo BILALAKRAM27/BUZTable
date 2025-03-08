@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/edit_promotions.css' %}">
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back.jpeg' %}") center/cover no-repeat fixed;
+  color: #333;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
+{% endblock %}
+{% block content %}
+<br><br>
+<!-- Edit Promotion Form Section -->
+<div class="container">
+    <h2 style="font-family: 'Pacifico', cursive">Edit Promotion: {{ promotion.name }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Render Form Fields -->
+        {{ form.as_p }}
+        
+        <!-- Save Changes Button -->
+        <button type="submit">Save Changes</button>
+    </form>
+    <br>
+    <!-- Cancel Button (Optional) -->
+    <a href="{% url 'restaurants:manage_promotions' %}" class="btn cancel-btn">Cancel</a>
+</div>
+
+{% endblock %}

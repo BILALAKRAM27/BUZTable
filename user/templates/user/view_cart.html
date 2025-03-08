@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}
+Your Cart
+{% endblock %}
+{% load static %}
+
+{% block extra_css %}
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-2.jpeg' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }.note-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+    .note-container h2 {
+        color: #d9534f;
+    }
+    .note-container p {
+        color: #333;
+        line-height: 1.6;
+    }
+    .note-container a {
+        color: #0275d8;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+{% if user.is_authenticated and not user.profile.is_restaurant and not user.is_superuser %}
+<div class="container mt-5">
+    <h1 style="font-family: 'Pacifico', cursive"class="text-center text-primary mb-4">Your Cart</h1>
+     
+    {% if cart %}
+        <div class="table-responsive">
+            <p  class="text-center text-warning"><a href="{% url 'restaurants:restaurant_list' %}">Browse items</a> to add to your cart.</p>
+            <table class="table table-striped table-bordered">
+                <thead class="text-center" style="background-color: aliceblue;">
+                    <tr>
+                        <th >Item</th>
+                        <th>Type</th>
+                        <th>Quantity</th>
+                        <th>Price (each)</th>
+                        <th>Subtotal</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody style="background-color: aliceblue;">
+                    {% for item in cart %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.item_type|title }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.price|floatformat:2 }}</td>
+                            <td>${{ item.price|multiply:item.quantity|floatformat:2 }}</td>
+                            <td>
+                                <form action="{% url 'user:remove_from_cart' item.item_type item.id %}" method="POST" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Total Calculation -->
+        <div class="text-right">
+            <p style="font-family: 'Pacifico', cursive"class="text-warning h5" ><strong>Total: ${{ total_price|floatformat:2 }}</strong></p>
+            <!-- Proceed to Checkout Button -->
+            <a href="{% url 'user:checkout' %}" class="btn btn-success mt-3">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p  class="text-center text-warning">Your cart is empty. <a href="{% url 'restaurants:restaurant_list' %}">Browse items</a> to add to your cart.</p>
+    {% endif %}
+</div>
+{% else %}
+<div class="note-container">
+    <h2>We're Sorry!</h2>
+    <p>We regret to inform you that only diners can view or add items to their carts through our platform. As a restaurant or Admin user, you have the capability to manage your restaurant's profile, update menus, and view reservations, but the functionality to make reservations is exclusively available to diners.</p>
+    <p>If you have any questions or need assistance, please don't hesitate to <a href="mailto:support@buztable.com">contact our support team</a>.</p>
+    <p>Thank you for your understanding and cooperation.</p>
+    <p>Sincerely,<br>The BUZTable Team</p>
+</div>
+{% endif %}
+{% endblock %}

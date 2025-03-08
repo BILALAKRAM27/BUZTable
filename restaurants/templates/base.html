@@ -1,0 +1,670 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BUZTABLE</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'restaurants/images/icon.jpg' %}">
+    
+        <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+<!-- Font Awesome CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
+<!-- Icon Font Stylesheet -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Libraries Stylesheet -->
+<link href="lib/animate/animate.min.css" rel="stylesheet">
+<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+<!-- Bootstrap 5 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- FontAwesome CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+
+<!-- Google Web Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+        <!-- Custom Stylesheet -->
+        <link rel="stylesheet" href="{% static 'restaurants/css/style.css' %}">
+        <style>
+            .hero-header {
+                background: linear-gradient(rgba(15, 23, 43, .9), rgba(15, 23, 43, .9)), url("{% static 'restaurants/images/bg-hero.jpg' %}") center center no-repeat fixed;
+                background-size: cover;
+                height: 120vh; /* Adjust as needed */
+                width: 100%;
+                color: white; /* Optional: for text color contrast */
+            }
+
+            .container-xxl {
+                padding-left: 0;
+                padding-right: 0;
+                max-width: 100%;
+            }
+
+            .card-img-top {
+                height: 120px;  /* Fixed height for all images */
+                width: 100%;    /* Make the width 100% of the container */
+                object-fit: cover;  /* Ensures the image covers the container while maintaining its aspect ratio */
+                border-radius: 8px; /* Optional: round the corners */
+            }
+
+            /* Menu Item Card and Special Deal Card (Ensure same size) */
+            .menu-item-card, .special-deal-card {
+                display: flex; /* Align content in a row */
+                flex-direction: row; /* Align the content horizontally */
+                transition: transform 0.3s ease-in-out; /* Smooth transition on hover */
+                border-radius: 8px; /* Optional: round the corners of the card */
+                overflow: hidden; /* Ensures no content overflows */
+                height: 120px; /* Set a fixed height for the cards */
+                width: auto;  /* Width adjusts based on the content */
+            }
+
+            /* Hover effect for Menu Item and Special Deal cards */
+            .menu-item-card:hover, .special-deal-card:hover {
+                transform: translateY(-15px); /* Raise the card slightly on hover */
+            }
+
+            /* Adjusting layout for the card content */
+            .menu-item-card .card-body, 
+            .special-deal-card .card-body {
+                display: flex;
+                flex-direction: row; /* Arrange content in a row */
+                padding: 0px;
+                justify-content: space-between; /* Space out content inside the card */
+                align-items: center; /* Vertically center content */
+                height: 100%; /* Ensure the card body fills the available height */
+                text-align: left; /* Align text to the left */
+            }
+
+            /* Adjust layout of image-container */
+            .image-container {
+                flex: 1; /* Take up equal space for image */
+                padding-right: 10px; /* Space between image and content */
+            }
+
+            /* Adjust layout of info-container */
+            .info-container {
+                flex: 2; /* Take up more space for the text */
+            }
+            .wow-delay-1s {
+    animation-delay: 1s;
+}
+
+.wow-delay-1-5s {
+    animation-delay: 1.5s;
+}
+
+.wow-delay-2s {
+    animation-delay: 2s;
+}
+
+.wow-delay-2-5s {
+    animation-delay: 2.5s;
+}
+/* General Dropdown Styling */
+.dropdown, .notification-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content */
+.dropdown-content, .notification-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Hover Effect for Dropdown */
+.dropdown:hover .dropdown-content,
+.notification-dropdown:hover .notification-dropdown-content {
+    display: block;
+}
+
+/* Dropdown Links and Notification Items */
+.dropdown-content a, .notification-dropdown-content li {
+    color: #333;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ddd;
+}
+
+.dropdown-content a:hover, .notification-dropdown-content li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Badge Styling */
+.badge {
+    background-color: #ff0000;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* Button Styling */
+.notification-dropdown button,
+.dropdown button {
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    height: 100%; /* Matches height with other buttons */
+    display: flex;
+    align-items: center; /* Centers text vertically */
+}
+
+
+
+/* Navbar Alignment Adjustments */
+.navbar-nav .dropdown {
+    height: 100%; /* Ensures alignment with other nav items */
+}
+
+.navbar-nav .dropdown .dropdown-toggle {
+    height: 100%; /* Matches height with other nav links */
+    display: flex;
+    align-items: center; /* Centers text vertically */
+}
+
+/* Dropdown Menu Positioning */
+.navbar-nav .dropdown-menu {
+    margin-top: 0.5rem; /* Adjust dropdown position relative to button */
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Dropdown Menu Items */
+.navbar-nav .dropdown-menu .dropdown-item {
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+
+
+
+                    
+        </style>
+        
+        {% block extra_css %}
+        {% endblock %}
+        {% block extra_js %}
+        {% endblock %}
+        {% block scripts %}
+        {% endblock %}
+    </head>
+    
+<body>
+    <header>
+        <!-- Navbar Start -->
+<div class="container-xxl  p-0">
+    <nav class="navbar navbar-expand-lg navbar-dark px-4 px-lg-5 py-3 py-lg-0">
+        <!-- Logo Section -->
+        <a href="{% url 'restaurants:home' %}" class="navbar-brand p-0">
+            <h1 class="text-primary title m-0"><i class="fa fa-utensils me-3"></i>BUZTable</h1>
+            <!-- <img src="{% static 'restaurants/images/real_buztable.png' %}" alt="Logo" style="height: 40px;"> -->
+        </a>
+
+        <!-- Navbar Toggler Button for Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0 pe-4">
+                <!-- Home Link -->
+                <a href="{% url 'restaurants:home' %}" class="nav-item nav-link">Home</a>
+        
+                <!-- Dynamic Links based on Authentication -->
+                {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                        <a href="/admin/" class="nav-item nav-link">Admin</a>
+                        <a href="{% url 'user:user_logout' %}" class="nav-item nav-link">Logout</a>
+                    {% elif user.profile.is_restaurant %}
+                        <a href="{% url 'restaurants:profile' %}" class="nav-item nav-link">Profile</a>
+                        <a href="{% url 'restaurants:restaurant_logout' %}" class="nav-item nav-link">Logout</a>
+                        <a href="{% url 'restaurants:restaurant_list' %}" class="nav-item nav-link">Restaurant List</a>
+                    {% else %}
+                        
+                        <a href="{% url 'user:view_cart' %}" class="nav-item nav-link" style="border-radius: 10%;">
+                            <i class="fas fa-shopping-cart"></i> Cart 
+                        </a>
+                        <a href="{% url 'restaurants:restaurant_list' %}" class="nav-item nav-link">Restaurant List</a>
+                        
+                        <!-- User Options Dropdown -->
+                        <div class="dropdown nav-item">
+                            <button class="nav-link dropdown-toggle" id="userOptionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                User Options
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="userOptionsDropdown">
+                                <li><a class="dropdown-item" href="{% url 'user:uprofile' %}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:user_dashboard' %}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:favorites' %}">Favourites</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:password_reset' %}">Change Password</a></li>
+                                <li><a class="dropdown-item" href="{% url 'user:user_logout' %}" >Logout</a></li>
+                                <!-- Notifications Dropdown -->
+                                <li class="dropdown-item">
+                                    <div class="notification-dropdown">
+                                        <button class="p-0" style="color:#333;">Notifications</button>
+                                        <div class="notification-dropdown-content">
+                                            {% if notifications %}
+                                                <ul>
+                                                    {% for notification in notifications %}
+                                                    <li>
+                                                        {{ notification.message }}
+                                                        {% if not notification.is_read %}
+                                                        <span class="badge bg-warning">Unread</span>
+                                                        {% endif %}
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                <form action="{% url 'user:delete_all_notifications' %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger btn-sm">Delete All Notifications</button>
+                                                </form>
+                                            {% else %}
+                                                <p>No notifications yet.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'restaurants:restaurant_list' %}" class="nav-item nav-link">Restaurant List</a>
+                    <a href="{% url 'user:user_login' %}" class="nav-item nav-link">User Login</a>
+                    <a href="{% url 'restaurants:restaurant_login' %}" class="nav-item nav-link">Restaurant Login</a>
+                {% endif %}
+        
+            </div>
+        
+            <a href="{% url 'user:make_reservation' %}" class="btn btn-primary py-2 px-4">Reserve A Table</a>
+        </div>
+        
+    </nav>
+</div>
+<!-- Navbar End -->
+
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Content will be rendered here -->
+        <div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container my-5 py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h1 class="display-3 text-white animated slideInLeft">Enjoy Our<br>Delicious Meal</h1>
+                <p class="text-white animated slideInLeft mb-4 pb-2">Discover a world of culinary delights at BUZTable, where every meal is a celebration of taste and quality. Whether you're craving a hearty breakfast, a light lunch, or an indulgent dinner, our diverse menu has something for everyone. Don't miss out on our exclusive deals, available only at BUZTable. Reserve your table today and experience dining like never before.</p>
+                <a href="{% url 'user:make_reservation' %}" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+            </div>
+            <div class="col-lg-6 text-center text-lg-end overflow-hidden" style="object-fit: cover; object-position: center;">
+                <img class="img-fluid" src="{% static 'restaurants/images/hero.png' %}" alt="rotating pic of grill">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Service Start -->
+<!-- Service Start -->
+<!-- Service Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 col-sm-6 wow fadeInUp wow-delay-1s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
+                        <h5>Master Chefs</h5>
+                        <p>Indulge in culinary excellence with our master chefs who create mouth-watering dishes using only the finest ingredients. Every meal is crafted to perfection, bringing the taste of top-tier dining straight to you.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp wow-delay-1-5s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-utensils text-primary mb-4"></i>
+                        <h5>Quality Food</h5>
+                        <p>Experience the true taste of quality with BUZTable! Our restaurants offer fresh, flavorful dishes that are prepared with care and attention to detail, ensuring a delightful dining experience every time.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp data-wow-delay-2s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-cart-plus text-primary mb-4"></i>
+                        <h5>Online Order</h5>
+                        <p>Craving your favorite meal? With BUZTable, ordering online is quick, easy, and secure! Simply browse menus, place your order, and have it delivered to your doorstep or ready for takeout in no time.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 wow fadeInUp wow-delay-2-5s">
+                <div class="service-item rounded pt-3">
+                    <div class="p-4">
+                        <i class="fa fa-3x fa-headset text-primary mb-4"></i>
+                        <h5>24/7 Service</h5>
+                        <p>Whether it’s a late-night snack or a weekend feast, BUZTable is here for you 24/7. Enjoy the convenience of online reservations, orders, and customer support whenever you need it!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Service End -->
+
+
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <div class="row g-3">
+                        <div class="col-6 text-start">
+                            <img class="img-fluid rounded w-100 hover-effect wow animate__zoomIn" data-wow-delay="0.1s" src="{% static 'restaurants/images/about-1.jpg' %}">
+                        </div>
+                        <div class="col-6 text-start">
+                            <img class="img-fluid rounded w-75 hover-effect wow zoomIn" data-wow-delay="0.3s" src="{% static 'restaurants/images/about-2.jpg' %}" style="margin-top: 25%;">
+                        </div>
+                        <div class="col-6 text-end">
+                            <img class="img-fluid rounded w-75 hover-effect wow zoomIn" data-wow-delay="0.5s" src="{% static 'restaurants/images/about-3.jpg' %}">
+                        </div>
+                        <div class="col-6 text-end">
+                            <img class="img-fluid rounded w-100 hover-effect wow zoomIn" data-wow-delay="0.7s" src="{% static 'restaurants/images/about-4.jpg' %}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
+                    <h1 class="mb-4">Welcome to <i class="fa fa-utensils text-primary me-2"></i class="title">BUZTable</h1>
+                    <p class="mb-4">"Where Dining Meets Convenience, and Your Table is Just a Click Away".</p>
+                    <p class="mb-4">Discover the ultimate dining experience with BUZTable! Easily reserve your table, explore exclusive menus, and enjoy hassle-free takeout and delivery. Restaurants get more visibility, manage tables effortlessly, and connect directly with diners through reviews and promotions. Join us today – where dining meets convenience, and your table is just a click away!</p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">{{ total_users }}</h1>
+                                <div class="ps-4">
+                                    <p class="mb-0">Total Number of</p>
+                                    <h6 class="text-uppercase mb-0">Users</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">{{ total_rest }}</h1>
+                                <div class="ps-4">
+                                    <p class="mb-0">Total Number of</p>
+                                    <h6 class="text-uppercase mb-0">Restaurants</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="{% url 'restaurants:read_more' %}">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+    <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Welcome to BUZTable</h5>
+          <p class="card-text">Explore great dining options and make reservations or place orders directly with your favorite restaurants.</p>
+          <p class="advertisement-text">
+            <strong>Advertisement:</strong> Get 10% off your first order when you sign up as a diner or restaurant today!
+          </p>
+          <div class="d-flex justify-content-center">
+
+
+            {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                    <p class="text-success"><strong>Already loged in as Admin</strong></p>
+                    {% elif user.profile.is_restaurant %}
+                    <p class="text-success"><strong>Already loged in by Restaurant user</strong></p>
+                    {% else %}
+                        <p class="text-success"><strong>Already loged in as Diner</strong></p>
+                    {% endif %}
+                {% else %}
+                <a href= "{% url 'user:user_login' %}"class="btn btn-primary mx-2">User Login</a>
+                <a href="{% url 'restaurants:restaurant_login' %}" class="btn btn-secondary mx-2">Restaurant Login</a>
+                {% endif %}
+        </div>
+      </div>
+      
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
+                <h1 class="mb-5">Most Popular Items</h1>
+            </div>
+    
+            <div class="row g-4">
+                <!-- Loop through the top 10 menu items -->
+                {% for item in top_menu_items %}
+                <div class="col-12 col-md-4">
+                    <div class="card mb-4 menu-item-card">
+                        <a href="{% url 'restaurants:restaurant_detail' id=item.profile.id %}" class="text-decoration-none text-dark">
+                            <div class="card-body d-flex flex-row">
+                                <!-- Image on the left -->
+                                <div class="image-container" style="flex: 1; padding-right: 10px;">
+                                    {% if item.image_data %}
+                                    <img src="data:image/png;base64,{{ item.image_data }}" alt="{{ item.name }}" class="card-img-top">
+                                    {% endif %}
+                                </div>
+            
+                                <!-- Info on the right -->
+                                <div class="info-container" style="flex: 2;">
+                                    {% if item.name|length > 25 %}
+                                        <h5>{{ item.name|slice:":25" }}...</h5>
+                                    {% else %}
+                                        <h5>{{ item.name }}</h5>
+                                    {% endif %}
+                                    <small class="text-danger" style="font-family: 'Pacifico', cursive"><strong class="text-success">at</strong> <strong>{{ item.profile.restaurant_name }}</strong></small><br>
+                                    <small class="text-muted">ordered: {{ item.order_count }} times</small><br>
+                                    <small class="text-muted">price: ${{ item.price }}</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            
+                {% for deal in top_special_deals %}
+                <div class="col-12 col-md-4">
+                    <div class="card mb-4 special-deal-card">
+                        <a href="{% url 'restaurants:restaurant_detail' id=deal.profile.id %}" class="text-decoration-none text-dark">
+                            <div class="card-body d-flex flex-row">
+                                <!-- Image on the left -->
+                                <div class="image-container" style="flex: 1; padding-right: 10px;">
+                                    {% if deal.image_data %}
+                                    <img src="data:image/png;base64,{{ deal.image_data }}" alt="{{ deal.name }}" class="card-img-top">
+                                    {% endif %}
+                                </div>
+            
+                                <!-- Info on the right -->
+                                <div class="info-container" style="flex: 2;">
+                                    {% if deal.name|length > 25 %}
+                                        <h5>{{ deal.name|slice:":25" }}...</h5>
+                                    {% else %}
+                                        <h5>{{ deal.name }}</h5>
+                                    {% endif %}
+                                    <small class="text-danger" style="font-family: 'Pacifico', cursive"><strong class="text-success">at</strong> <strong>{{ deal.profile.restaurant_name }}</strong></small><br>
+                                    <small class="text-muted">ordered: {{ deal.order_count }} times</small><br>
+                                    <small class="text-muted">price: ${{ deal.price }}</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+    <!-- Team Start -->
+    <div class="container-xxl pt-5 pb-3">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Team Members</h5>
+                <h1 class="mb-5">Our Master-Minds behind  the Scenes</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item text-center rounded overflow-hidden">
+                        <div class="rounded-circle overflow-hidden m-4">
+                            <img class="img-fluid" src="{% static 'restaurants/images/team-1.jpg' %}" alt="">
+                        </div>
+                        <h5 class="mb-0">MUHAMMAD BILAL AKRAM</h5>
+                        <small>TEAM-LEAD</small>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a class="btn btn-square btn-primary mx-1" href="https://www.facebook.com/profile.php?id=100075928869620&mibextid=ZbWKwL"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square btn-primary mx-1" href="https://www.instagram.com/bilalakram589/profilecard/?igsh=MXJqd3FnMmRncWFjYQ=="><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item text-center rounded overflow-hidden">
+                        <div class="rounded-circle overflow-hidden m-4">
+                            <img class="img-fluid" src="{% static 'restaurants/images/team-2.jpg' %}" alt="">
+                        </div>
+                        <h5 class="mb-0">ZOHAIB IQBAL</h5>
+                        <small>TEAM-MEMBER</small>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a class="btn btn-square btn-primary mx-1" href="https://www.facebook.com/share/19wBcnZRie/"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square btn-primary mx-1" href="https://www.instagram.com/chakwaliya3.0?igsh=cTJjZjVqNWQ4emw2"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow animate__fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item text-center rounded overflow-hidden">
+                        <div class="rounded-circle overflow-hidden m-4">
+                            <img class="img-fluid" src="{% static 'restaurants/images/team-3.jpg' %}">
+                        </div>
+                        <h5 class="mb-0">UNS YASEEN</h5>
+                        <small>TEAM-MEMBER</small>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a class="btn btn-square btn-primary mx-1" href="https://www.facebook.com/ChAnas1315?mibextid=ZbWKwL"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square btn-primary mx-1" href="https://www.instagram.com/itzz_me01315?igsh=MWNiZHE2eWx3aTlmNg=="><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow animate fadeInUp" data-wow-delay="0.7s">
+                    <div class="team-item text-center rounded overflow-hidden">
+                        <div class="rounded-circle overflow-hidden m-4">
+                            <img class="img-fluid" src="{% static 'restaurants/images/team-4.png' %}" alt="">
+                        </div>
+                        <h5 class="mb-0">CHATGPT</h5>
+                        <small>SANTA'S LITTLE HELPER</small>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a class="btn btn-square btn-primary mx-1" href="https://chatgpt.com/"><i class="fa fa-link" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Team End -->
+
+
+<!-- Footer Start -->
+<div class="container-fluid text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s" style="background-color: #0F172B;padding-left: 0%;padding-right: 0%;padding-bottom: 0%;">
+    <div class="container-fluid py-5" style="padding-left: 0; padding-right: 0;"> <!-- Ensured no padding on sides -->
+        <div class="row g-5">
+            <!-- Company Section -->
+            <div class="col-lg-6 col-md-12">
+                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4" style="text-align: left;">Company</h4>
+                <a class="btn btn-link text-light mb-2" href="{% url 'restaurants:about_us' %}" style="text-align: center;">About Us</a>
+                <a class="btn btn-link text-light mb-2" href="mailto:190204ba@gmail.com" style="text-align: center;">Contact Us</a>
+                <a class="btn btn-link text-light mb-2" href="{% url 'user:make_reservation' %}" style="text-align: center;">Reservation</a>
+                <a class="btn btn-link text-light mb-2" href="{% url 'restaurants:privacy_policy' %}" style="text-align: center;">Privacy Policy</a>
+                <a class="btn btn-link text-light mb-2" href="{% url 'restaurants:terms_and_conditions' %}" style="text-align: center;">Terms & Conditions</a>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="col-lg-6 col-md-12">
+                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>COMSATS University Islamabad, Shaiwal Campus</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+9233330483271</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>Contact@BUZTable.com</p>
+                <div class="d-flex pt-2 justify-content-center">
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://twitter.com/BUZTableOfficial"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/BUZTable"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.youtube.com/shorts/SXHMnicI6Pg"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/bilal-akram-081b86268/"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Copyright Section -->
+    <div class="container-fluid" style="padding-left: 0; padding-right: 0;"> <!-- Ensured no padding on sides -->
+        <div class="copyright">
+            <div class="row">
+                <div class="justify-content-center">
+                    &copy; <a class="border-bottom" href="#" style="text-decoration: none;">BUZTable</a>, All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+
+
+
+
+        {% endblock %}
+        <a href="#" class="btn btn-lg btn-lg-square back-to-top">
+            <i class="bi bi-arrow-up" style="background-color:rgb(0, 72, 255);padding: 15px;border-radius: 10%;color: aliceblue;"></i>
+        </a>
+    </main>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7x4l2P5ptD5J+OeFVupcm/v5eSn5oyxDRiJ" crossorigin="anonymous"></script>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0v8FqJ2lM4A03A7yA4ZG8v5yZtF7B53w3Be3oKltHbu3g1hb" crossorigin="anonymous"></script>
+
+<!-- JavaScript Libraries -->
+<script src="lib/wow/wow.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/counterup/counterup.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+
+
+<!-- Initialize WOW.js -->
+<script>
+    new WOW().init();
+</script>
+
+<!-- Template Javascript -->
+<script src="{% static 'restaurants/js/main.js' %}"></script>
+
+
+</body>
+</html>

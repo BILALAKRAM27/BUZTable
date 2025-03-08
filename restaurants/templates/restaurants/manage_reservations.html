@@ -1,0 +1,36 @@
+<!-- templates/restaurants/manage_reservations.html -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/manage_reservations.css' %}">
+{% endblock %}
+
+{% block content %}
+  <h1>Manage Reservations</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Reserved At</th>
+        <th>Until</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for reservation in reservations %}
+      <tr>
+        <td>{{ reservation.user.username }}</td>
+        <td>{{ reservation.reserved_at }}</td>
+        <td>{{ reservation.reserved_until }}</td>
+        <td>
+          <!-- Add buttons to confirm/reject reservations if needed -->
+          <a href="{% url 'restaurants:confirm_reservation' reservation.id %}">Confirm</a>
+          <a href="{% url 'restaurants:reject_reservation' reservation.id %}">Reject</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

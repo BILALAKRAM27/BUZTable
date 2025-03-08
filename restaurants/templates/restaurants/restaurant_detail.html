@@ -1,0 +1,542 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/restaurant_detail.css' %}">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+        color: #333;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+    .hidden {
+    display: none;
+}
+
+</style>
+{% endblock %}
+
+{% block title %}
+{{ profile.restaurant_name }} - Details
+{% endblock %}
+
+{% block content %}
+<br><br>
+<div class="container mt-5">
+    <h1 class="text-center text-warning" style="font-family: 'Pacifico', cursive">{{ profile.restaurant_name }}</h1>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            {% if profile.image_data %}
+                <div class="card shadow">
+                    <img src="data:image/jpeg;base64,{{ profile.image_data }}" class="card-img-top img-fluid" alt="{{ profile.restaurant_name }}">
+                </div>
+            {% else %}
+                <p style="color: aliceblue;">No image available for this restaurant.</p>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="card shadow-lg restaurant-info-card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4 text-success" style="font-family: 'Pacifico', cursive">{{ profile.restaurant_name }} - Information</h5>
+                    <p><strong>Description:</strong> {{ profile.description }}</p>
+                    <p><strong>Address:</strong> {{ profile.address }}</p>
+                    <p><strong>Contact:</strong> {{ profile.contact_number }}</p>
+                    {% if user.is_authenticated and not user.profile.is_restaurant %}
+                        <form action="{% url 'user:add_to_favorites' favorite_id=profile.id  favorite_type='restaurant' %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success mt-3">Add to Favorites (Restaurant)</button>
+                        </form>
+                   {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Displaying top menu items -->
+         
+        <div class="row g-4 mt-5">
+            <h3 class="text-warning" style="font-family: 'Pacifico', cursive; text-align: center;">Most Ordered Items</h3>
+            <!-- Displaying top special deals -->
+            {% for item in top_menu_items %}
+            <div class="col-12 col-md-4">
+                <div class="card mb-4 special-deal-card shadow-lg">
+                    <div class="card-body d-flex flex-row">
+                        <!-- Image on the left -->
+                        <div class="image-container" style="flex: 1; padding-right: 10px;">
+                            {% if item.image_data %}
+                            <img src="data:image/png;base64,{{ item.image_data }}" alt="{{ item.name }}" class="card-img-top rounded">
+                            {% endif %}
+                        </div>
+        
+                        <!-- Info on the right -->
+                        <div class="info-container" style="flex: 2;">
+                            <h4 class="h5 font-weight-bold">{{ item.name }}</h4>
+                            <p class="text-muted">Ordered: <span class="text-primary">{{ item.order_count }}</span> times</p>
+                            <p class="text-success">Price: <strong>${{ item.price|floatformat:2 }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    
+    <div class="row g-4 mt-5">
+        <h3 class="text-warning" style="font-family: 'Pacifico', cursive; text-align: center;">Most Ordered Special Deals</h3>
+        <!-- Displaying top special deals -->
+        {% for deal in top_special_deals %}
+        <div class="col-12 col-md-4">
+            <div class="card mb-4 special-deal-card shadow-lg">
+                <div class="card-body d-flex flex-row">
+                    <!-- Image on the left -->
+                    <div class="image-container" style="flex: 1; padding-right: 10px;">
+                        {% if deal.image_data %}
+                        <img src="data:image/png;base64,{{ deal.image_data }}" alt="{{ deal.name }}" class="card-img-top rounded">
+                        {% endif %}
+                    </div>
+    
+                    <!-- Info on the right -->
+                    <div class="info-container" style="flex: 2;">
+                        <h4 class="h5 font-weight-bold">{{ deal.name }}</h4>
+                        <p class="text-muted">Ordered: <span class="text-primary">{{ deal.order_count }}</span> times</p>
+                        <p class="text-success">Price: <strong>${{ deal.price|floatformat:2 }}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <hr class="my-5">
+    
+    <h3 class="text-warning" style="font-family: 'Pacifico', cursive; text-align: center;">Menu Items</h3>
+<div class="row">
+    {% for item in menu_items %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-lg menucard">
+            <img src="data:image/jpeg;base64,{{ item.image_data }}" alt="{{ item.name }}" class="card-img-top img-fluid rounded">
+            <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title font-weight-bold">{{ item.name }}</h5>
+                        <p class="text-success">Price: <strong>${{ item.price|floatformat:2 }}</strong></p>
+                    </div>
+                    {% if user.is_authenticated and not user.profile.is_restaurant %}
+                    <form 
+                    action="{% if item.id in favorite_menu_items %}{% url 'user:remove_from_favorites' favorite_id=item.id favorite_type='menu_item' %}{% else %}{% url 'user:add_to_favorites' favorite_id=item.id favorite_type='menu_item' %}{% endif %}" 
+                     method="POST" class="favorite-form ml-3">
+                        {% csrf_token %}
+                        
+                        <button type="submit" class="btn btn-success">
+                            {% if item.id in favorite_menu_items  %}Remove{% else %}❤️{% endif %}</button>
+                    </form>
+                    {% endif %}
+                </div>
+                <small class="text-muted">Ordered {{ item.order_count }} times</small>
+                
+                <div class="mt-auto">
+                    <!-- Add to Cart Form (at the bottom of the card) -->
+                    {% if user.is_authenticated and not user.profile.is_restaurant %}
+                    <form action="{% url 'user:add_to_cart' 'menu_item' item.id %}" method="POST" class="mt-3">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" style="width: 70px; display: inline-block;">
+                        <button type="submit" class="btn btn-success">Add to Cart</button>
+                    </form>
+                    {% else %}
+                    <p class="text-danger" style="font-family: 'Pacifico', cursive; text-align: center;">Login as a diner to add items to cart.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+    
+
+    <hr class="my-5">
+
+    <h3 class="text-warning" style="font-family: 'Pacifico', cursive">Special Deals</h3>
+<div class="row">
+    {% for deal in special_deal_items %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-lg specialcard">
+            <img src="data:image/jpeg;base64,{{ deal.image_data }}" alt="{{ deal.name }}" class="card-img-top img-fluid">
+            <div class="card-body d-flex flex-column">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title"><strong>{{ deal.name }}</strong></h5>
+                        <p class="text-success">Price: ${{ deal.price|floatformat:2 }}</p>
+                    </div>
+                    {% if user.is_authenticated and not user.profile.is_restaurant %}
+                    <form action="{% url 'user:add_to_favorites' favorite_id=deal.id favorite_type='special_deal' %}" method="POST"  class="favorite-form ml-3">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">❤️</button>
+                    </form>
+                    {% endif %}
+                </div>
+                <small class="text-muted">Ordered {{ deal.order_count }} times</small><br>
+                <small class="text-muted">Valid: {{ deal.start_date|date:"M d, Y" }} to {{ deal.end_date|date:"M d, Y" }}</small>
+                <div class="mt-auto">
+                    <!-- Add to Cart Form (at the bottom of the card) -->
+                    {% if user.is_authenticated and not user.profile.is_restaurant %}
+                    <form action="{% url 'user:add_to_cart' 'special_deal' deal.id %}" method="POST" class="mt-3">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" style="width: 70px; display: inline-block;">
+                        <button type="submit" class="btn btn-success">Add to Cart</button>
+                    </form>
+                    {% else %}
+                    <p class="text-danger" style="font-family: 'Pacifico', cursive">Login as a diner to add deals to cart.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+    <hr class="my-5">
+
+    <h3 class="text-warning" style="font-family: 'Pacifico', cursive">Reviews</h3>
+<ul id="reviews-list-{{ profile.id }}">
+    {% for review in reviews %}
+        <li class="review-item mb-4 {% if forloop.counter > 5 %}hidden{% endif %}">
+            <strong>{{ review.user.username }}:</strong>
+            <span class="text-warning">
+                {% for i in review.rating|range %}
+                    ★
+                {% endfor %}
+            </span>
+            <br>{{ review.comment }}
+            <br><small class="text-muted">Reviewed on {{ review.created_at|date:"M d, Y H:i" }}</small>
+        </li>
+    {% empty %}
+        <li style="color:white">No reviews yet.</li>
+    {% endfor %}
+</ul>
+
+<!-- Show More button -->
+{% if reviews.count > 5 %}
+<p style="text-align: center; background-color: none;color: aliceblue;"><button id="show-more-reviews" class="btn btn-secondary mt-3">-------------------------------Show All &#11147;-------------------------------</button></p>
+{% endif %}
+
+<hr class="my-5">
+
+{% if user.is_authenticated and not user.profile.is_restaurant %}
+<div class="card shadow-lg">
+    <div class="card-header">
+        <h5 class="card-title mb-0 text-primary" style="font-family: 'Pacifico', cursive">Leave a Review:</h5>
+    </div>
+    <div class="card-body">
+        <form style="font-family: 'Pacifico', cursive;" id="review-form" class="Review-form" method="POST">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button type="submit" name="submit_review" class="btn btn-primary mt-3">Submit Review</button>
+        </form>
+    </div>
+</div>
+{% else %}
+<!-- Fallback or non-authenticated user message -->
+ <p class="text-danger mt-3" style="font-family: 'Pacifico', cursive">Only Diners can leave a review.</p>
+{% endif %}
+
+
+    <hr class="my-5">
+
+    <h3 class="text-warning" style="font-family: 'Pacifico', cursive">Comments and Feedback</h3>
+<div class="comments">
+    <ul id="comments-list-{{ profile.id }}">
+        {% for comment in profile.comments.all %}
+            <li class="comment-item mb-4 {% if forloop.counter > 5 %}hidden{% endif %}">
+                {% if comment.user.profile.is_restaurant %}
+                    {% if profile.image_data %}
+                        <img class="comment-user-img" src="data:image/jpeg;base64,{{ profile.image_data }}" class="card-img-top img-fluid" alt="{{ profile.restaurant_name }}">
+                    {% else %}
+                        <img class="comment-user-img" src="{% static 'restaurants/images/default.jpeg' %}" alt="default_image">
+                    {% endif %}
+                    <strong>{{ comment.profile.restaurant_name }}:</strong>
+                {% else %}
+                    {% if comment.user.user_profile.image_data %}
+                        <img src="data:image/jpeg;base64,{{ comment.user.user_profile.image_data }}" class="comment-user-image" alt="{{ comment.user.username }}">
+                    {% else %}
+                        <img class="comment-user-img" src="{% static 'user/images/default.jpeg' %}" alt="default_image">
+                    {% endif %}
+                    <strong>{{ comment.user.username }}:</strong>
+                {% endif %}
+                <p>{{ comment.body }}</p>
+                <small class="text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+            </li>
+        {% empty %}
+            <li>No comments yet.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Show More button -->
+    {% if profile.comments.count > 5 %}
+        <p style="text-align: center; background-color: none;color: aliceblue;"><button id="show-more-comments" class="btn btn-secondary mt-3">-------------------------------Show All &#11147;-------------------------------</button></p>
+    {% endif %}
+
+    {% if user.is_authenticated and not user.profile.is_restaurant %}
+        <form id="comment-form-{{ profile.id }}" class="comment-form" method="post" action="{% url 'restaurants:comment' profile.id %}">
+            {% csrf_token %}
+            <textarea style="font-family: 'Pacifico', cursive" name="body" rows="4" placeholder="Add a comment..."></textarea><br>
+            <button type="submit" class="btn btn-primary">Post Comment</button>
+        </form>
+    {% else %}
+        <p class="text-danger mt-3" style="font-family: 'Pacifico', cursive">Only Diners can leave a comment.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const commentForm = document.getElementById("comment-form-{{ profile.id }}");
+        commentForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(commentForm);
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", commentForm.action, true);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    const commentsList = document.getElementById("comments-list-{{ profile.id }}");
+                    const newComment = document.createElement("li");
+                    newComment.className = "comment-item mb-4";
+
+                    // Common variables for user and restaurant images
+                    let commentUserImage = "";
+                    const defaultUserImage = "{% static 'user/images/default.jpeg' %}";
+
+                    // Attempt to parse the response from the server
+                    let response = {};
+                    try {
+                        response = JSON.parse(xhr.responseText);
+                        console.log("Response:", response); // Debugging line
+                    } catch (e) {
+                        console.error("Error parsing response:", e);
+                    }
+
+                    // Always use the username and comment body from the response
+                    const username = response.username || "Anonymous"; // Default to "Anonymous" if username is missing
+                    const commentBody = response.body || "No comment body available"; // Fallback text if body is missing
+
+                    // Check if the username and comment body exist in the response
+                    if (!response.username || !response.body) {
+                        console.warn("Missing username or body in response", response); // Debugging line
+                    }
+
+                    // Check if it's a user comment (not a restaurant)
+                    if (xhr.status === 200) {
+                        // User profile: use user image
+                        commentUserImage = response.image_data ?
+                            `<img class="comment-user-img" src="data:image/jpeg;base64,${response.image_data}" alt="${response.username}">` :
+                            `<img class="comment-user-img" src="${defaultUserImage}" alt="default_image">`;
+
+                        newComment.innerHTML = `${commentUserImage}<strong>${username}:</strong> <p>${commentBody}</p>`;
+
+                        const commentTime = document.createElement("small");
+                        commentTime.className = "text-muted";
+                        commentTime.innerText = response.created_at || "Just now";  // Default to "Just now" if no created_at
+                        newComment.appendChild(commentTime);
+
+                        commentsList.appendChild(newComment);
+                    }
+                    if (xhr.status !== 200) {
+                        commentUserImage = response.image_data ?
+                            `<img class="comment-user-img" src="data:image/jpeg;base64,${response.image_data}" alt="${response.username}">` :
+                            `<img class="comment-user-img" src="${defaultUserImage}" alt="default_image">`;
+
+                        newComment.innerHTML = `${commentUserImage}<strong>${username}:</strong> <p>${commentBody}</p>`;
+
+                        const commentTime = document.createElement("small");
+                        commentTime.className = "text-muted";
+                        commentTime.innerText = response.created_at || "Just now";  // Default to "Just now" if no created_at
+                        newComment.appendChild(commentTime);
+
+                        commentsList.appendChild(newComment);
+                        window.location.reload(); // Reload the page
+                    }
+
+                    // Reset the form after submission (success or failure)
+                    commentForm.reset();
+                    
+                }
+            };
+
+            xhr.send(formData);
+        });
+    });
+
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        // Attach event listener to the form
+        const reviewForm = document.getElementById('review-form');
+        const reviewButton = reviewForm.querySelector('button[type="submit"]');
+        const reviewsList = document.getElementById('reviews-list-{{ profile.id }}');
+
+        reviewForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form data
+            const formData = new FormData(reviewForm);
+            formData.append('submit_review', 'true');
+
+            // Perform AJAX request
+            fetch('{% url "restaurants:restaurant_detail" id=profile.id %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': '{{ csrf_token }}', // Add CSRF token to headers
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    // Show error message if user has already reviewed the restaurant
+                    showError(data.error);  // Replace with your popup or modal
+                } else {
+                    // Append the new review to the list
+                    const newReview = document.createElement('li');
+                    newReview.classList.add('review-item', 'mb-4');
+                    newReview.innerHTML = `
+                        <strong>${data.user}:</strong>
+                        <span class="text-warning">${'★'.repeat(data.rating)}</span>
+                        <br>${data.comment}
+                        <br><small class="text-muted">Reviewed on ${data.created_at}</small>
+                    `;
+                    reviewsList.appendChild(newReview);
+
+                    // Optionally, clear the form after successful submission
+                    reviewForm.reset();
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting review:', error);
+                alert('There was an error submitting your review. Please try again.');
+            });
+        });
+    });
+
+
+</script>
+<!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function showError(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: message
+        });
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select the Show More button
+        const showMoreButton = document.getElementById('show-more-comments');
+        
+        // If the Show More button exists
+        if (showMoreButton) {
+            // Add an event listener to the Show More button
+            showMoreButton.addEventListener('click', function() {
+                // Select all hidden comments (those beyond the first 10)
+                const hiddenComments = document.querySelectorAll('.comment-item.hidden');
+                
+                // Show all hidden comments
+                hiddenComments.forEach(function(comment) {
+                    comment.classList.remove('hidden');
+                });
+                
+                // Hide the Show More button after clicking
+                showMoreButton.style.display = 'none';
+            });
+        }
+    });
+    </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select the Show More button
+        const showMoreButton = document.getElementById('show-more-reviews');
+        
+        // If the Show More button exists
+        if (showMoreButton) {
+            // Add an event listener to the Show More button
+            showMoreButton.addEventListener('click', function() {
+                // Select all hidden reviews (those beyond the first 10)
+                const hiddenReviews = document.querySelectorAll('.review-item.hidden');
+                
+                // Show all hidden reviews
+                hiddenReviews.forEach(function(review) {
+                    review.classList.remove('hidden');
+                });
+                
+                // Hide the Show More button after clicking
+                showMoreButton.style.display = 'none';
+            });
+        }
+    });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // When "Show All" button is clicked
+            $('#show-more-reviews').click(function() {
+                $('#reviews-list-{{ profile.id }} .hidden').removeClass('hidden');
+                $(this).hide(); // Hide the "Show More" button after it's clicked
+            });
+        
+            $('#show-more-comments').click(function() {
+                $('#comments-list-{{ profile.id }} .hidden').removeClass('hidden');
+                $(this).hide();
+            });
+        });
+        </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle Add to Favorites button clicks for Restaurant, Menu Items, and Special Deals
+            const favoriteForms = document.querySelectorAll('.favorite-form');
+            favoriteForms.forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    this.submit(); // Submit the form after clicking Add to Favorites
+                });
+            });
+    
+            // Handle Add to Cart form submission with validation
+            const addToCartForms = document.querySelectorAll('.form-add-to-cart');
+            addToCartForms.forEach(form => {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    const quantityInput = this.querySelector('input[name="quantity"]');
+                    const quantity = quantityInput.value;
+                    
+                    // Validate quantity (e.g., ensure it is at least 1)
+                    if (quantity >= 1) {
+                        this.submit(); // Submit the form if valid
+                    } else {
+                        alert('Please enter a valid quantity.');
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
+
+
+
+

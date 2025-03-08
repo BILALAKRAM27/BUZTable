@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user/css/make_reservation.css' %}">
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+        color: #333;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+    .note-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+    .note-container h2 {
+        color: #d9534f;
+    }
+    .note-container p {
+        color: #333;
+        line-height: 1.6;
+    }
+    .note-container a {
+        color: #0275d8;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br><br>
+{% if user.is_authenticated and not user.profile.is_restaurant and not user.is_superuser %}
+    <div class="container">
+        <h2 style="font-family: 'Pacifico', cursive;">Make a Reservation</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="restaurant">Select Restaurant</label>
+                {{ form.restaurant }}
+            </div>
+
+            <div class="form-group">
+                <label for="table">Select Table</label>
+                {{ form.table }}
+            </div>
+
+            <div class="form-group">
+                <label for="reservation_date">Reservation Date and Time</label>
+                {{ form.reservation_date }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Reserve Table</button>
+        </form>
+    </div>
+{% else %}
+    <div class="note-container">
+        <h2>We're Sorry!</h2>
+        <p>Dear Restaurant Partner,</p>
+        <p>We regret to inform you that only diners can make reservations through our platform. As a restaurant user, you have the capability to manage your restaurant's profile, update menus, and view reservations, but the functionality to make reservations is exclusively available to diners.</p>
+        <p>If you have any questions or need assistance, please don't hesitate to <a href="mailto:support@buztable.com">contact our support team</a>.</p>
+        <p>Thank you for your understanding and cooperation.</p>
+        <p>Sincerely,<br>The BUZTable Team</p>
+    </div>
+{% endif %}
+
+<!-- Include Flatpickr CSS and JavaScript -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<!-- Initialize Flatpickr for the reservation_date field -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr('.datetimepicker', {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            time_24hr: true  // Optional: Use 24-hour format
+        });
+    });
+</script>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- JavaScript to dynamically update table options based on selected restaurant -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_restaurant').change(function() {
+            var url = '{% url "user:get_tables" %}';  // This should now work with the correct URL
+            var restaurantId = $(this).val();
+
+            $.ajax({
+                url: url,
+                data: {
+                    'restaurant_id': restaurantId
+                },
+                success: function(data) {
+                    var tableSelect = $('#id_table');
+                    tableSelect.empty();  // Clear existing options
+                    $.each(data, function(i, table) {
+                        tableSelect.append($('<option>', {
+                            value: table.id,
+                            text: table.name
+                        }));
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

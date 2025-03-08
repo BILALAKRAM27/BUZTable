@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Terms and Conditions{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-5.png' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  p {
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  h2 {
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+    h1 {
+      font-size: 1.8em;
+    }
+    h2 {
+      font-size: 1.5em;
+    }
+    p {
+      font-size: 1em;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<h1 style="font-family: 'Pacifico', cursive" class="text-warning">Terms and Conditions</h1>
+    <div class="container">
+        
+        <p>Last updated: 28th December 2024</p>
+        <p>Welcome to BUZTable. These terms and conditions outline the rules and regulations for the use of our website and services. By accessing or using our services, you agree to comply with and be bound by these terms.</p>
+        <h2 style="font-family: 'Pacifico', cursive">Use of Our Services</h2>
+        <p>You must be at least 18 years old to use our services. You agree to provide accurate and complete information when creating an account and using our services.</p>
+        <h2 style="font-family: 'Pacifico', cursive">Reservations and Orders</h2>
+        <p>By making a reservation or placing an order through BUZTable, you agree to comply with the restaurant's policies and procedures. You are responsible for ensuring that your reservation or order details are accurate.</p>
+        <h2 style="font-family: 'Pacifico', cursive">Payment</h2>
+        <p>All payments must be made at the time of reservation or order. We use third-party payment processors to handle transactions securely.</p>
+        <h2 style="font-family: 'Pacifico', cursive">Cancellation and Refunds</h2>
+        <p>Cancellation and refund policies vary by restaurant. Please review the specific policies of the restaurant you are booking or ordering from.</p>
+        <h2 style="font-family: 'Pacifico', cursive">Changes to These Terms</h2>
+        <p>We may update these terms and conditions from time to time. We will notify you of any changes by posting the new terms on our website. Your continued use of our services after any changes indicates your acceptance of the new terms.</p>
+        <h2 style="font-family: 'Pacifico', cursive">Contact Us</h2>
+        <p>If you have any questions about these terms and conditions, please contact us at Contact@BUZTable.com</p>
+    </div>
+    {% endblock %}

@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Inline CSS -->
+<style>
+    /* General body styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/bg-hero.jpg' %}") center/cover no-repeat fixed;
+        color: #333;
+    }
+
+    /* Card container styling */
+    .add-menu-item {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #ffffff; /* White background for the card */
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    /* Heading inside the card */
+    .add-menu-item__heading {
+        font-size: 28px;
+        color: #004085; /* Deep blue for the heading */
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* Form inside the card */
+    .add-menu-item__form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Label styling */
+    .add-menu-item__form label {
+        font-size: 16px;
+        color: #333333;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    /* Form input fields styling */
+    .add-menu-item__form input,
+    .add-menu-item__form select,
+    .add-menu-item__form textarea {
+        padding: 12px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        background-color: #ffffff;
+        color: #333333;
+        transition: border-color 0.3s ease;
+    }
+
+    /* Focus state for inputs */
+    .add-menu-item__form input:focus,
+    .add-menu-item__form select:focus,
+    .add-menu-item__form textarea:focus {
+        border-color: #4a90e2; /* Muted blue border on focus */
+        outline: none;
+    }
+
+    /* Button styling */
+    .btn {
+        font-size: 16px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        text-transform: uppercase;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #4a90e2; /* Muted blue */
+        border: none;
+        color: #ffffff;
+    }
+
+    .btn-primary:hover {
+        background-color: #357ab7; /* Darker blue on hover */
+    }
+
+    /* Adjust the button spacing */
+    .add-menu-item__form button {
+        margin-top: 20px;
+    }
+
+    /* Textarea styling */
+    .add-menu-item__form textarea {
+        height: 150px;
+        resize: none;
+    }
+
+    /* Margin adjustment for the form */
+    .add-menu-item__form p {
+        margin-bottom: 15px;
+    }
+
+    /* Add space for the confirm button */
+    script {
+        display: block;
+        margin-top: 20px;
+    }
+</style>
+<br><br><br>
+<!-- Card Container -->
+<div class="add-menu-item">
+    <h2 class="add-menu-item__heading" style="font-family: 'Pacifico', cursive">Add Menu Item</h2>
+    <form method="post" enctype="multipart/form-data" class="add-menu-item__form" onsubmit="return confirmaddition()">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Add Item</button>
+    </form>
+</div>
+
+
+{% endblock content %}

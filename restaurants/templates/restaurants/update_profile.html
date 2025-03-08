@@ -1,0 +1,142 @@
+<!-- restaurants/templates/restaurants/update_profile.html -->
+{% extends "base.html" %}
+{%load static%}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/update_special_deal.css' %}">
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-4.png' %}") center/cover no-repeat fixed;
+  color: #333;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<style>
+    /* Profile Update Page Styles */
+.profile-update-container {
+    background-color: #ffffff; 
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin-bottom: 50px;
+    width: 100%;
+    max-width: 800px; /* Centering the form */
+    margin: 0 auto; /* Centering the form */
+}
+
+.profile-update-heading {
+    font-size: 2rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Form Styles */
+.profile-update-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-update-form input, 
+.profile-update-form select, 
+.profile-update-form textarea {
+    font-size: 1rem;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ecf0f1;
+    width: 100%;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
+
+.profile-update-form input[type="file"] {
+    padding: 5px;
+    background-color: #fff;
+}
+
+.profile-update-form input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+/* Form Button */
+.profile-update-submit-btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+    background-color: #385af4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.profile-update-submit-btn:hover {
+    background-color: #2980b9;
+}
+
+/* CSRF Token and Form Elements */
+.profile-update-form-group {
+    margin-bottom: 15px;
+}
+
+.profile-update-form-group label {
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Placeholder Text */
+.profile-update-form input::placeholder,
+.profile-update-form textarea::placeholder {
+    color: #bdc3c7;
+}
+
+/* Responsive Styles for Small Screens */
+@media screen and (max-width: 768px) {
+    .profile-update-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .profile-update-heading {
+        font-size: 1.8rem;
+    }
+
+    .profile-update-form input,
+    .profile-update-form select,
+    .profile-update-form textarea {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .profile-update-submit-btn {
+        padding: 10px 15px;
+    }
+}
+
+</style>
+<br><br><br>
+<div class="profile-update-container">
+    <h2 class="profile-update-heading" style="font-family: 'Pacifico', cursive">Update Profile</h2>
+    <form class="profile-update-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="profile-update-form-group">
+            {{ u_form.as_p }}
+        </div>
+        <div class="profile-update-form-group">
+            {{ p_form.as_p }}
+        </div>
+        <button type="submit" class="profile-update-submit-btn">Update</button>
+    </form>
+</div>
+{% endblock %}

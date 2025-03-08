@@ -1,0 +1,124 @@
+/* Common Container Styles */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    background-color: #f8f9fa;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+}
+
+thead {
+    background-color: #289fa7;
+    color: #ffffff;
+}
+
+thead th {
+    padding: 1rem;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+tbody td {
+    padding: 0.75rem;
+    border-top: 1px solid #dee2e6;
+}
+
+tbody td a {
+    color: #28a745;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+tbody td a:hover {
+    color: #1e7e34;
+}
+
+h1 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 1.5rem;
+}
+
+/* Add New Promotion Link Styles */
+a.add-new {
+    display: block;
+    width: fit-content;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    background-color: #28a745;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+a.add-new:hover {
+    background-color: #1e7e34;
+}
+
+/* Animation for fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tbody td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    tbody td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 1rem;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    tbody td a {
+        display: inline-block;
+        margin: 0.25rem 0;
+    }
+}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- Inline CSS for Styling -->
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-5.png' %}") center/cover no-repeat fixed;
+
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Card container styling */
+    .add-special-deal {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Card heading styling */
+    .add-special-deal__heading {
+        font-size: 28px;
+        color: #004085;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Form styling */
+    .add-special-deal__form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Label styling */
+    .add-special-deal__form label {
+        font-size: 16px;
+        color: #333;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    /* Form input fields */
+    .add-special-deal__form input,
+    .add-special-deal__form select,
+    .add-special-deal__form textarea {
+        padding: 12px;
+        font-size: 16px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        background-color: #ffffff;
+        color: #333;
+        transition: border-color 0.3s ease;
+    }
+
+    /* Focus state for inputs */
+    .add-special-deal__form input:focus,
+    .add-special-deal__form select:focus,
+    .add-special-deal__form textarea:focus {
+        border-color: #4a90e2;
+        outline: none;
+    }
+
+    /* Submit button styling */
+    .add-special-deal__form button {
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        background-color: #4a90e2;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-transform: uppercase;
+    }
+
+    .add-special-deal__form button:hover {
+        background-color: #357ab7;
+    }
+
+    /* Textarea styling */
+    .add-special-deal__form textarea {
+        height: 150px;
+        resize: none;
+    }
+
+    /* Margin for form elements */
+    .add-special-deal__form p {
+        margin-bottom: 15px;
+    }
+</style>
+<br><br>
+
+<div class="add-special-deal">
+  <h2 class="add-special-deal__heading" style="font-family: 'Pacifico', cursive">Add Special Deal</h2>
+  <form method="post" enctype="multipart/form-data" class="add-special-deal__form" onsubmit="return confirmaddition()">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Deal</button>
+  </form>
+</div>
+<script>
+    function confirmaddition() {
+      return confirm("The deal was successfully added. Do you want to proceed?");
+    }
+</script>
+
+{% endblock %}

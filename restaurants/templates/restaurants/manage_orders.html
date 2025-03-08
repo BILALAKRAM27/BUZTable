@@ -1,0 +1,38 @@
+<!-- templates/restaurants/manage_orders.html -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/manage_orders.css' %}">
+{% endblock %}
+
+{% block content %}
+  <h1>Manage Orders</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Menu Item</th>
+        <th>Quantity</th>
+        <th>Order Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order.user.username }}</td>
+        <td>{{ order.menu_item.name }}</td>
+        <td>{{ order.quantity }}</td>
+        <td>{{ order.order_date }}</td>
+        <td>
+          <!-- Add buttons to update order status if needed -->
+          <a href="{% url 'restaurants:update_order_status' order.id %}?status=preparing">Preparing</a>
+          <a href="{% url 'restaurants:update_order_status' order.id %}?status=ready">Ready</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

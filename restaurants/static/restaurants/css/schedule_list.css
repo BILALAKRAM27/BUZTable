@@ -1,0 +1,130 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Page Title */
+h1 {
+    text-align: center;
+    margin: 40px 0;
+    color: #343a40;
+    font-size: 2.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Table Styling */
+table {
+    width: 85%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Table Header */
+th {
+    background-color: #669bbc;
+    color: white;
+    padding: 15px;
+    font-size: 1.1em;
+    text-transform: uppercase;
+}
+
+/* Table Cell Styling */
+th, td {
+    padding: 12px 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+/* Table Row Styling */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Action Button Styling */
+.schedule_link {
+    background-color: #007bff;
+    color: #afafaf;
+    text-decoration: none;
+    padding: 6px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Button Hover */
+.schedule_link:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Add New Schedule Button */
+a[href="{% url 'add_schedule' %}"] {
+    margin-top: 30px;
+    text-align: center;
+    background-color: #ffffff;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 4px;
+    font-size: 1.1em;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+a[href="{% url 'add_schedule' %}"]:hover {
+    background-color: #669bbc;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    table {
+        width: 95%;
+    }
+
+    th, td {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    a[href="{% url 'add_schedule' %}"] {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 2em;
+        margin: 20px 0;
+    }
+
+    table {
+        width: 100%;
+        font-size: 0.85em;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    a {
+        padding: 4px 10px;
+    }
+}

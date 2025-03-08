@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/delete_profile.css' %}">
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-3.png' %}") center/cover no-repeat fixed;
+  color: #333;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
+{% endblock %}
+{% block content %}
+<br><br>
+<!-- Delete Profile Confirmation Alert -->
+<div class="alert alert-danger">
+    <h2>Wait! Are You Sure You Want to Delete Your Profile?</h2>
+    <p>Your restaurant’s profile is an integral part of the BUZTable community. Deleting it means losing all your valuable reviews, customer connections, and promotional efforts. Here’s why you might want to reconsider:</p>
+    <ul>
+        <li><strong>Maintain Your Online Presence:</strong> Your profile helps diners discover your restaurant, driving more foot traffic and orders.</li>
+        <li><strong>Preserve Customer Relationships:</strong> Keep your loyal customers informed about your latest offers and menu updates.</li>
+        <li><strong>Leverage Marketing Tools:</strong> Utilize our promotional features to attract new customers and increase your revenue.</li>
+        <li><strong>Manage Reservations with Ease:</strong> Simplify the reservation process, making it convenient for both you and your customers.</li>
+    </ul>
+    <p>If there’s anything we can do to improve your experience or address any issues, please <a href="mailto:190204ba@gmail.com"></a>contact our support team</a>. We’re here to help you succeed!</p>
+    <p>If you still wish to proceed with deleting your profile, please confirm below:</p>
+    <form method="POST">
+        {% csrf_token %}
+        <!-- Delete Button -->
+        <button type="submit" class="btn btn-danger">Yes, delete my profile</button>
+        
+        <!-- Cancel Button -->
+        <a href="{% url 'restaurants:profile' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/most_ordered.css' %}">
+
+<style>
+    body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/menu-1.jpg' %}") center/cover no-repeat fixed;
+    color: #333;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+</style>
+{% endblock %}
+{% block content %}
+<br><br><br><br>
+    <h1>Top 10 Most Ordered Dishes</h1>
+
+    <h2>Most Ordered Menu Items</h2>
+    <ul>
+        {% for item in top_menu_items %}
+            <li>
+                <strong>{{ item.name }}</strong> - Ordered {{ item.order_count }} times
+                <p>{{ item.ingredients }}</p>
+                <p>Price: ${{ item.price }}</p>
+            </li>
+        {% empty %}
+            <li>No menu items found.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Most Ordered Special Deals</h2>
+    <ul>
+        {% for deal in top_special_deals %}
+            <li>
+                <strong>{{ deal.name }}</strong> - Ordered {{ deal.order_count }} times
+                <p>{{ deal.items }}</p>
+                <p>Price: ${{ deal.price }}</p>
+            </li>
+        {% empty %}
+            <li>No special deals found.</li>
+        {% endfor %}
+    </ul>
+{%endblock%}

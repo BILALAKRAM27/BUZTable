@@ -1,0 +1,534 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read More Page</title>
+
+    <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), 
+                  url("{% static 'restaurants/images/back-5.png' %}") center/cover no-repeat fixed;
+      background-size: cover;
+      min-height: 10vh;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+            h1 {
+            text-align: center;
+            color: #333;
+            font-family: 'Pacifico', cursive;
+        }
+        h3 {
+            color: #333;
+            font-family: 'Pacifico', cursive;
+        }
+
+        .chapter {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .chapter-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #f0f0f0;
+            color: rgb(31, 31, 31);
+            font-size: 16px;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .chapter-btn:hover {
+            background-color: #d6d6d6;
+        }
+
+        .chapter-content {
+            padding: 15px;
+            display: none;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+caption {
+    font-size: 1.5em;
+    margin: 10px;
+    text-align: center;
+}
+
+    </style>
+
+</head>
+<body>
+<br><br><br>
+<h1 class="text-warning" style="font-family: 'Pacifico', cursive">Read More !</h1>
+    
+        <!-- Dropdown for chapters -->
+        <div class="chapter">
+            <button class="chapter-btn" onclick="toggleChapter('chapter1')">Chapter 1: Introduction</button>
+            <div id="chapter1" class="chapter-content">
+                <h1 style="font-family: 'Pacifico', cursive">Introduction</h1>
+                <p><strong>BUZTABLE</strong> is designed to bridge the gap between restaurant reservations and online food ordering. This chapter introduces the project, outlines the problem statement, and sets the stage for the detailed discussion that follows.</p>
+                
+                <h3>1.1 Background</h3>
+                <p>The restaurant industry has seen a significant transformation with the advent of technology. Traditional methods of reserving (1) tables and ordering food have given way to online platforms that offer convenience and efficiency. BUZTABLE aims to integrate these functionalities into a single platform, providing a seamless experience for both diners and restaurant owners.</p>
+                
+                <h3>1.2 Problem Statement</h3>
+                <p>Current restaurant reservation systems and food delivery (2) platforms operate independently, leading to inefficiencies and inconvenience for users who need to switch between multiple apps. There is a need for a unified platform that combines these services.</p>
+                
+                <h3>1.3 Objectives</h3>
+                <ul>
+                    <li>Develop a comprehensive platform for restaurant reservations and food ordering.</li>
+                    <li>Ensure a user-friendly interface for both customers and restaurant staff.</li>
+                    <li>Implement robust security measures to protect user data.</li>
+                    <li>Provide a scalable solution that can handle high traffic.</li>
+                </ul>
+                
+                <h3>1.4 Scope</h3>
+                <p>BUZTable is a web-based platform that merges the functionalities of restaurant reservations and online food ordering. It will enable diners to make reservations, browse restaurant menus, order food for takeaway or delivery, and review their dining experiences. Restaurant owners will have the ability to manage reservations, orders, menu items, tables, and promotions. The system will integrate with payment gateways for processing transactions and with third-party delivery partners for efficient delivery operations.</p>
+                <p>The platform is expected to serve multiple geographical regions and will support multiple languages and currencies to cater to an international audience. This document covers all the features required for the platform, including user registration, restaurant management, reservation systems, payment integration, reviews, and order management.</p>
+                
+                <h3>1.5 Structure of the Thesis</h3>
+                <p>The thesis is structured as follows:</p>
+                <ul>
+                    <li>Chapter 2 reviews the existing literature on restaurant reservation systems and food delivery platforms.</li>
+                    <li>Chapter 3 discusses the system design and architecture of BUZTABLE.</li>
+                    <li>Chapter 4 covers the implementation details, including the technology stack and development process.</li>
+                    <li>Chapter 5 presents the results and discusses the performance of the system.</li>
+                    <li>Finally, Chapter 6 concludes the thesis and suggests future enhancements.</li>
+                </ul>
+                
+                <h3>1.6 Overview</h3>
+                <p>This document is structured to provide an in-depth description of the BUZTable platform, its features, architecture, and other technical aspects. It will cover functional requirements, non-functional requirements, system features, database design, security protocols, and performance criteria, providing a clear understanding of the project and its objectives. The document will also serve as a guide for future maintenance and scalability of the system.</p>
+            .
+            </div>
+        </div>
+
+        <div class="chapter">
+            <button class="chapter-btn" onclick="toggleChapter('chapter2')">Chapter 2: Overall Description</button>
+            <div id="chapter2" class="chapter-content">
+                <h1>Overall Description</h1>
+                <h3>2.1 Product Perspective</h3>
+                <p>BUZTable is designed to simplify the dining experience by providing a unified platform for reservations, food ordering, and reviews. It is envisioned as a hybrid between existing restaurant reservation services such as OpenTable and online food delivery platforms like FoodPanda. The system will offer users the convenience of reserving tables, ordering food for delivery or takeaway, and leaving reviews for restaurants.</p>
+                <p>The system will allow restaurant owners to manage their profiles, upload menus, track reservations, and receive customer feedback. It will also offer advanced features like promotions, discount codes, and loyalty programs to attract more diners.</p>
+
+                <h3>2.2 Product Functions</h3>
+                <p>The key functions of BUZTable will include:</p>
+                <ul>
+                    <li>User Registration and Authentication: Secure login and sign-up for diners and restaurant owners, including social media integration.</li>
+                    <li>Restaurant Registration: Restaurants will be able to create and manage their profiles, update menu items, and set table availability.</li>
+                    <li>Table Reservation: Diners will be able to search for available tables, make reservations, and receive confirmation.</li>
+                    <li>Order Management: Diners can place orders for delivery or takeaway, customize items, and pay securely.</li>
+                    <li>Reviews and Ratings: Users can leave feedback for restaurants, which helps other users make informed decisions.</li>
+                    <li>Notifications: The system will send notifications to users for reservations, order status, and promotions.</li>
+                    <li>Payment Processing: Integration with third-party payment gateways like PayPal, Stripe, or local solutions.</li>
+                </ul>
+
+                <h3>2.3 User Classes and Characteristics</h3>
+                <table>
+                    <tr>
+                        <th>User Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Diners</td>
+                        <td>Customers who will register on the platform to make reservations, place orders, and leave reviews.</td>
+                    </tr>
+                    <tr>
+                        <td>Restaurant Owners</td>
+                        <td>Individuals or entities managing restaurants, responsible for updating restaurant details, menus, and monitoring reservations.</td>
+                    </tr>
+                    <tr>
+                        <td>Restaurant Staff</td>
+                        <td>Employees of the restaurant who manage reservations, orders, and customer service within the platform.</td>
+                    </tr>
+                    <tr>
+                        <td>Admin</td>
+                        <td>System administrators who have full access to manage users, restaurants, and platform settings.</td>
+                    </tr>
+                </table>
+
+                <h3>2.4 Operating Environment</h3>
+                <p>BUZTable will operate in a web-based environment, optimized for major browsers such as Chrome, Firefox, Safari, and Edge. It will support both desktop and mobile users, ensuring a responsive design for various devices. The backend will use Django and PostgreSQL, and the platform will be hosted on a cloud infrastructure, ensuring scalability and availability.</p>
+
+                <h3>2.5 Design and Implementation Constraints</h3>
+                <p>The system must be developed following modern web development standards and must be compatible with various browsers and devices. The platform will require integration with third-party APIs for payment processing and delivery services, which may introduce some implementation complexities.</p>
+
+                <h3>2.6 Assumptions and Dependencies</h3>
+                <ul>
+                    <li>Users will have internet access and modern web browsers.</li>
+                    <li>Integration with third-party payment gateways and delivery services will be feasible and secure.</li>
+                    <li>The system will be designed to support global users, including multiple languages and currencies.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="chapter">
+            <button class="chapter-btn" onclick="toggleChapter('chapter3')">Chapter 3: Literature Review</button>
+            <div id="chapter3" class="chapter-content">
+                <h1>Literature Review</h1>
+                <h3>3.1 Online Reservation Systems</h3>
+                <p>Online reservation systems have revolutionized the way diners book tables at restaurants. Several platforms, such as OpenTable and Resy, have simplified the reservation process by allowing users to book tables from their devices. These systems offer features like real-time availability, instant confirmation, and reminders, which enhance user convenience and restaurant efficiency. However, these systems often lack integration with food ordering services, leading to a fragmented user experience.</p>
+
+                <h3>3.2 Food Delivery Platforms</h3>
+                <p>Food delivery platforms like Foodpanda, Uber Eats, and DoorDash have significantly impacted the food service industry by providing users with the convenience of ordering food from their favorite restaurants and having it delivered to their doorstep. These platforms offer extensive menus, user reviews, and various payment options. However, they operate separately from reservation systems, creating a need for a unified solution that combines both functionalities.</p>
+
+                <h3>3.3 User Experience in Dining Applications</h3>
+                <p>User experience (UX) is a critical factor in the success of dining applications. An intuitive interface, seamless navigation, and personalized recommendations enhance user satisfaction. Studies have shown that applications that prioritize UX see higher engagement and retention rates. Key elements of a good UX in dining applications include easy menu browsing, simple reservation and ordering processes, and quick access to customer support.</p>
+
+                <h3>3.4 Comparative Analysis</h3>
+                <p>A comparative analysis of existing reservation and food delivery platforms reveals a gap in the market for an integrated solution. While platforms like OpenTable excel in table reservations and Foodpanda in food delivery, there is no single platform that offers both services efficiently. BUZTABLE aims to fill this gap by combining the best features of both types of platforms into a comprehensive solution.</p>
+                
+                <h4>Table 2: Comparative Analysis of Dining Platforms</h4>
+                <table>
+                    <tr>
+                        <th>Feature</th>
+                        <th>OpenTable</th>
+                        <th>Foodpanda</th>
+                        <th>BUZTABLE</th>
+                    </tr>
+                    <tr>
+                        <td>Table Reservations</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Food Delivery</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Real-Time Availability</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>User Reviews</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                    </tr>
+                    <tr>
+                        <td>Integrated Services</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="chapter">
+            <button class="chapter-btn" onclick="toggleChapter('chapter4')">Chapter 4:  System Features</button>
+            <div id="chapter4" class="chapter-content">
+                <h1><h1>System Features</h1></h1>
+
+        <h3>4.1 Online Reservation Systems</h3>
+        <p>Online reservation systems have revolutionized the way diners book tables at restaurants. Several platforms, such as OpenTable and Resy, have simplified the reservation process by allowing users to book tables from their devices. These systems offer features like real-time availability, instant confirmation, and reminders, which enhance user convenience and restaurant efficiency. However, these systems often lack integration with food ordering services, leading to a fragmented user experience.</p>
+
+        <h3>4.2 Food Delivery Platforms</h3>
+        <p>Food delivery platforms like Foodpanda, Uber Eats, and DoorDash have significantly impacted the food service industry by providing users with the convenience of ordering food from their favorite restaurants and having it delivered to their doorstep. These platforms offer extensive menus, user reviews, and various payment options. However, they operate separately from reservation systems, creating a need for a unified solution that combines both functionalities.</p>
+
+        <h3>4.3 User Experience in Dining Applications</h3>
+        <p>User experience (UX) is a critical factor in the success of dining applications. An intuitive interface, seamless navigation, and personalized recommendations enhance user satisfaction. Studies have shown that applications that prioritize UX see higher engagement and retention rates. Key elements of a good UX in dining applications include easy menu browsing, simple reservation and ordering processes, and quick access to customer support.</p>
+
+        <h3>4.4 Comparative Analysis</h3>
+        <p>A comparative analysis of existing reservation and food delivery platforms reveals a gap in the market for an integrated solution. While platforms like OpenTable excel in table reservations and Foodpanda in food delivery, there is no single platform that offers both services efficiently. BUZTABLE aims to fill this gap by combining the best features of both types of platforms into a comprehensive solution.</p>
+
+        <h4>Table 2: Comparative Analysis of Dining Platforms</h4>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>OpenTable</th>
+                <th>Foodpanda</th>
+                <th>BUZTABLE</th>
+            </tr>
+            <tr>
+                <td>Table Reservations</td>
+                <td>Yes</td>
+                <td>No</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Food Delivery</td>
+                <td>No</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Real-Time Availability</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>User Reviews</td>
+                <td>Yes</td>
+                <td>Yes</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Integrated Services</td>
+                <td>No</td>
+                <td>No</td>
+                <td>Yes</td>
+            </tr>
+        </table>
+            </div>
+        </div>
+
+        <div class="chapter">
+            <button class="chapter-btn" onclick="toggleChapter('chapter5')">Chapter 5:System Design and Architecture </button>
+            <div id="chapter5" class="chapter-content">
+                <h1>System Design and Architecture</h1>
+
+        <h3>5.1 Overview</h3>
+        <p>The BUZTABLE system is designed to provide a seamless experience for users looking to reserve tables and order food from restaurants. The architecture is based on the Model-View-Controller (MVC) pattern, ensuring a clear separation of concerns and scalability.</p>
+
+        <h3>5.2 System Components</h3>
+        <p>The BUZTABLE system consists of the following key modules:</p>
+        <ul>
+            <li><strong>User Module:</strong> Handles user registration, authentication, and profile management.</li>
+            <li><strong>Restaurant Module:</strong> Manages restaurant profiles, menus, and table availability.</li>
+            <li><strong>Reservation Module:</strong> Facilitates table reservations, cancellations, and modifications.</li>
+            <li><strong>Order Module:</strong> Manages food orders, payments, and delivery tracking.</li>
+            <li><strong>Admin Module:</strong> Provides administrative functions for managing users, restaurants, and system settings.</li>
+        </ul>
+
+        <h3>5.3 Database Design</h3>
+        <p>The database design is a crucial aspect of BUZTABLE, ensuring data integrity and efficient retrieval. The schema includes tables for users, restaurants, menus, reservations, orders, and more. ([6] Kim, 2021)</p>
+
+        <h4>Table 3: Key Database Tables and Their Descriptions</h4>
+        <table>
+            <tr>
+                <th>Table Name</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>Users</td>
+                <td>Stores user information and credentials</td>
+            </tr>
+            <tr>
+                <td>Restaurants</td>
+                <td>Contains restaurant profiles and details</td>
+            </tr>
+            <tr>
+                <td>Menus</td>
+                <td>Lists menu items available at restaurants</td>
+            </tr>
+            <tr>
+                <td>Reservations</td>
+                <td>Records table reservations made by users</td>
+            </tr>
+            <tr>
+                <td>Orders</td>
+                <td>Tracks food orders placed by users</td>
+            </tr>
+            <tr>
+                <td>Payments</td>
+                <td>Manages payment transactions</td>
+            </tr>
+        </table>
+
+        <h3>5.4 User Interface Design</h3>
+        <p>The user interface (UI) design focuses on providing an intuitive and visually appealing experience. Key components of the UI include the homepage, restaurant profiles, reservation system, menu browsing, and order tracking.</p>
+
+            </div>
+        </div>
+
+        <div class="chapter">
+            <button class="chapter-btn" onclick="toggleChapter('chapter6')">Chapter 6: Implementation</button>
+            <div id="chapter6" class="chapter-content">
+                <div class="content-container">
+                    <h1>Implementation</h1>
+            
+                    <h3>6.1 Technology Stack</h3>
+                    <p>The BUZTABLE project utilizes a modern technology stack to ensure robustness and scalability. The key technologies include:</p>
+                    <ul>
+                        <li><strong>Backend:</strong> Django (Python)</li>
+                        <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                        <li><strong>Database:</strong> db.sqlite3</li>
+                    </ul>
+            
+                    <h3>6.2 Module Development</h3>
+                    <p>Development is broken down into modules, each focusing on a specific functionality. The development plan ensures that each module is thoroughly tested before integration.</p>
+            
+                    <h4>Table 4: Module Development Plan</h4>
+                    <table>
+                        <tr>
+                            <th>Module</th>
+                            <th>Description</th>
+                            <th>Completion Date</th>
+                        </tr>
+                        <tr>
+                            <td>User Module</td>
+                            <td>Registration, authentication, profile</td>
+                            <td>December 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Restaurant Module</td>
+                            <td>Restaurant profiles, menus</td>
+                            <td>December 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Reservation Module</td>
+                            <td>Table reservations</td>
+                            <td>December 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Order Module</td>
+                            <td>Food orders, payments, delivery</td>
+                            <td>December 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Admin Module</td>
+                            <td>Administrative functions</td>
+                            <td>December 2024</td>
+                        </tr>
+                    </table>
+            
+                    <h3>6.3 Integration</h3>
+                    <p>Integration involves combining all developed modules into a cohesive system. Integration testing is conducted to ensure that the modules work together seamlessly and that the system meets all functional requirements ([8] Green, 2018).</p>
+            
+                    <h3>6.4 Testing</h3>
+                    <p>Comprehensive testing is essential to ensure the reliability and performance of BUZTABLE. Testing phases include:</p>
+                    <ul>
+                        <li><strong>Unit Testing:</strong> Testing individual components for correctness.</li>
+                        <li><strong>Integration Testing:</strong> Ensuring that different modules function together correctly.</li>
+                        <li><strong>System Testing:</strong> Verifying the entire system's functionality.</li>
+                        <li><strong>User Acceptance Testing:</strong> Ensuring the system meets the requirements of the end users.</li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+
+        <div class="chapter">
+            <button class="chapter-btn" onclick="toggleChapter('chapter7')">Chapter 7: Results and Discussion</button>
+            <div id="chapter7" class="chapter-content">
+                <div class="content-container">
+                    <h1>Results and Discussion</h1>
+            
+                    <h3>7.1 Performance Evaluation</h3>
+                    <p>Performance evaluation involves assessing the system’s response time, scalability, and resource utilization under various conditions ([9] Wang, 2020). Load testing is conducted to ensure the system can handle high traffic volumes without degradation in performance.</p>
+            
+                    <h4>Table 5: Performance Metrics</h4>
+                    <table>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Expected Value</th>
+                            <th>Actual Value</th>
+                        </tr>
+                        <tr>
+                            <td>Response Time</td>
+                            <td>&lt; 2 seconds</td>
+                            <td>1.8 seconds</td>
+                        </tr>
+                        <tr>
+                            <td>Concurrent Users</td>
+                            <td>1000 users</td>
+                            <td>1200 users</td>
+                        </tr>
+                        <tr>
+                            <td>CPU Utilization</td>
+                            <td>&lt; 70%</td>
+                            <td>65%</td>
+                        </tr>
+                        <tr>
+                            <td>Memory Utilization</td>
+                            <td>&lt; 75%</td>
+                            <td>70%</td>
+                        </tr>
+                    </table>
+            
+                    <h3>7.2 User Feedback</h3>
+                    <p>User feedback is collected through surveys and interviews to gauge user satisfaction and identify areas for improvement. The feedback indicates high satisfaction with the system’s ease of use and functionality.</p>
+            
+                    <h4>Table 6: User Feedback Summary</h4>
+                    <table>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Rating (out of 5)</th>
+                        </tr>
+                        <tr>
+                            <td>User Interface</td>
+                            <td>4.5</td>
+                        </tr>
+                        <tr>
+                            <td>Reservation Process</td>
+                            <td>4.7</td>
+                        </tr>
+                        <tr>
+                            <td>Order Process</td>
+                            <td>4.6</td>
+                        </tr>
+                        <tr>
+                            <td>Overall Experience</td>
+                            <td>4.8</td>
+                        </tr>
+                    </table>
+            
+                    <h3>7.3 Case Studies</h3>
+                    <p>Case studies demonstrate the real-world application of BUZTABLE. These studies highlight how different restaurants have benefited from the system in terms of increased reservations and improved customer satisfaction.</p>
+            </div>
+        </div>
+
+
+    <script>
+        function toggleChapter(chapterId) {
+            const chapterContent = document.getElementById(chapterId);
+            
+            // Toggle visibility of the chapter content
+            if (chapterContent.style.display === "none" || chapterContent.style.display === "") {
+                chapterContent.style.display = "block";
+            } else {
+                chapterContent.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
+{% endblock %}

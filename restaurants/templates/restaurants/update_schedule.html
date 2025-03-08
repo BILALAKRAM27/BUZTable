@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{%load static%}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'restaurants/css/update_schedule.css' %}">
+<style>
+  body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/about-1.jpg' %}") center/cover no-repeat fixed;
+  color: #333;
+  background-size: cover;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<br><br><br><br>
+
+<form method="post">
+  <h1>Update Schedule</h1>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}

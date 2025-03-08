@@ -1,0 +1,91 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Card container styling */
+.form-card {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Card heading styling */
+.form-card h1 {
+    font-size: 28px;
+    color: #004085;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form styling */
+.form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Label styling */
+.form-card label {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Form input fields */
+.form-card input,
+.form-card select,
+.form-card textarea {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus state for inputs */
+.form-card input:focus,
+.form-card select:focus,
+.form-card textarea:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+/* Submit button styling */
+.form-card button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #4a90e2;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-transform: uppercase;
+}
+
+.form-card button:hover {
+    background-color: #357ab7;
+}
+
+/* Textarea styling */
+.form-card textarea {
+    height: 150px;
+    resize: none;
+}
+
+/* Margin for form elements */
+.form-card p {
+    margin-bottom: 15px;
+}

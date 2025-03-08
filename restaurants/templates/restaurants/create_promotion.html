@@ -1,0 +1,86 @@
+<!-- create_promotion.html -->
+{% extends "base.html" %}
+{%load static%}
+{% block content %}
+<!-- Inline CSS for Styling -->
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(rgba(15, 23, 43, 0.9), rgba(15, 23, 43, 0.9)), url("{% static 'restaurants/images/back-4.png' %}") center/cover no-repeat fixed;
+
+        color: #333;
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 100px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #004085;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        border-color: #4a90e2;
+        outline: none;
+    }
+
+    button[type="submit"] {
+        padding: 12px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #4a90e2;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #357ab7;
+    }
+</style>
+<br><br>
+<!-- Create Promotion Form -->
+<div class="container">
+    <h2 style="font-family: 'Pacifico', cursive">Create New Promotion</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Save</button>
+    </form>
+</div>
+
+{% endblock %}
