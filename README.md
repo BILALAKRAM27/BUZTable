@@ -6,21 +6,6 @@
 <h1 align="center">🍽️ BUZTable</h1>
 <p align="center">Where Dining Meets Convenience — Your Ultimate Restaurant Reservation & Food Ordering Solution</p>
 
-<p align="center">
-  <a href="https://github.com/BILALAKRAM27/BUZTable/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/BILALAKRAM27/BUZTable/ci.yml?style=flat-square&label=CI%20Status" alt="Build Status">
-  </a>
-  <a href="https://github.com/BILALAKRAM27/BUZTable/releases">
-    <img src="https://img.shields.io/github/v/release/BILALAKRAM27/BUZTable?style=flat-square" alt="Latest Release">
-  </a>
-  <a href="https://github.com/BILALAKRAM27/BUZTable/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/BILALAKRAM27/BUZTable?style=flat-square" alt="License">
-  </a>
-  <a href="https://github.com/BILALAKRAM27/BUZTable/issues">
-    <img src="https://img.shields.io/github/issues/BILALAKRAM27/BUZTable?style=flat-square" alt="Issues">
-  </a>
-</p>
-
 ---
 
 ## 📖 Project Overview
@@ -65,4 +50,37 @@ buztable/
 ├── static/           # Static assets (CSS, JS)
 ├── templates/        # Frontend templates
 ├── manage.py         # Django project manager
-└── requirements.txt  # Project dependencies
+
+
+## ⚙️ Installation
+
+### ✅ Requirements
+- Python 3.10+
+- Django 4.x
+- PostgreSQL or SQLite (default: SQLite for development)
+- pip (Python package installer)
+- Git
+
+---
+
+### ✅ Setup Instructions
+
+```bash
+# 1️⃣ Clone the repository
+git clone https://github.com/BILALAKRAM27/BUZTable.git
+cd BUZTable
+
+# 2️⃣ Create a virtual environment
+python -m venv env
+source env/bin/activate  # On Windows use: env\Scripts\activate
+
+# 3️⃣ Install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# 4️⃣ Apply database migrations
+python manage.py migrate
+
+# 5️⃣ Run the development server
+python manage.py runserver
+
