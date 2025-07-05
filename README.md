@@ -7,10 +7,18 @@
 <p align="center">Where Dining Meets Convenience — Your Ultimate Restaurant Reservation & Food Ordering Solution</p>
 
 <p align="center">
-  <a href="https://github.com/your-repo/buztable/actions"><img src="https://img.shields.io/github/workflow/status/your-repo/buztable/CI?style=flat-square" alt="Build Status"></a>
-  <a href="https://github.com/your-repo/buztable/releases"><img src="https://img.shields.io/github/v/release/your-repo/buztable?style=flat-square" alt="Latest Release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/your-repo/buztable?style=flat-square" alt="License"></a>
-  <a href="https://github.com/your-repo/buztable/issues"><img src="https://img.shields.io/github/issues/your-repo/buztable?style=flat-square" alt="Issues"></a>
+  <a href="https://github.com/BILALAKRAM27/BUZTable/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/BILALAKRAM27/BUZTable/ci.yml?style=flat-square&label=CI%20Status" alt="Build Status">
+  </a>
+  <a href="https://github.com/BILALAKRAM27/BUZTable/releases">
+    <img src="https://img.shields.io/github/v/release/BILALAKRAM27/BUZTable?style=flat-square" alt="Latest Release">
+  </a>
+  <a href="https://github.com/BILALAKRAM27/BUZTable/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/BILALAKRAM27/BUZTable?style=flat-square" alt="License">
+  </a>
+  <a href="https://github.com/BILALAKRAM27/BUZTable/issues">
+    <img src="https://img.shields.io/github/issues/BILALAKRAM27/BUZTable?style=flat-square" alt="Issues">
+  </a>
 </p>
 
 ---
