@@ -1,6 +1,6 @@
 <!-- Project Logo -->
 <p align="center">
-  <img src="https://via.placeholder.com/150x150.png?text=BUZTable+Logo" alt="BUZTable Logo" width="150">
+  <img src="https://drive.google.com/file/d/12RjFJydzxAd_oznyUxds0QhhJJYR_OwR/view?usp=drive_link" alt="BUZTable Logo" width="150">
 </p>
 
 <h1 align="center">🍽️ BUZTable</h1>
