@@ -65,7 +65,6 @@ buztable/
 
 ### ✅ Setup Instructions
 
-```bash
 # 1️⃣ Clone the repository
 git clone https://github.com/BILALAKRAM27/BUZTable.git
 cd BUZTable
