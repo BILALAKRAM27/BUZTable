@@ -41,6 +41,13 @@ All within a single, user-friendly interface.
 | 🔔 **Notifications System**      | Real-time updates on reservations, orders, and promotions                          |
 
 ---
+## 🖼️ Project Screenshot
+
+<p align="center">
+  <img src="https://drive.google.com/uc?export=view&id=1j-n4kSWHPrMEZPNb_H497ELUqfTaYaY5" alt="BUZTable Screenshot" width="800">
+</p>
+
+<p align="center"><em>BUZTable Interface Preview</em></p>
 
 ## 📂 Project Structure
 
